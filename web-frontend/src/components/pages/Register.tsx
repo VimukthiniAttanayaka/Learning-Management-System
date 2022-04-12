@@ -10,22 +10,34 @@ const Register = () => {
                 <Image src={background} />
             </Col>
             <Col>
-                <Row className='login-content px-4 pt-3 pb-5'>
+                <Row className='login-content px-4 pt-3 pb-5 register'>
                     <Image src={logo} />
                     <Form>
-                        <Form.Control type="email" placeholder="email" />
-                        <Form.Control type="password" placeholder="Password" />
-                        <Form.Control type="password" placeholder="Retype Password" />
-                        <Button variant="primary" type="submit" className='code1'>
-                            Send Code
+                        <Row>
+                            <Col xs={6}>
+                                <Form.Control type="text" placeholder="First Name" />
+                                <Form.Control type="text" placeholder="User ID" />
+                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Select>
+                                    <option>Student</option>
+                                    <option>Teacher</option>
+                                </Form.Select>
+                            </Col>
+                            <Col xs={6}>
+                                <Form.Control type="text" placeholder="Last Name" />
+                                <Form.Control type="email" placeholder="email" />
+                                <Form.Control type="password" placeholder="Retype Password" />
+                                <Form.Control type="number" placeholder="Mobile" />
+                            </Col>
+                        </Row>
+                        <Button variant="primary" type="submit" className='submit mt-2'>
+                            Regitster
                         </Button>
                         <Form.Control type="text" placeholder="code" />
                         <Button variant="primary" type="submit" className='code'>
                             Verify
                         </Button>
-                        <Button variant="primary" type="submit" className='submit'>
-                            Reset Password
-                        </Button>
+
                     </Form>
                 </Row>
             </Col>
