@@ -6,7 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+@Entity(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
