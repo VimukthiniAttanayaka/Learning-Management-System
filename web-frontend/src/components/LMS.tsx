@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Row, Col, Image } from 'react-bootstrap';
 import LeftNavbar from './navbars/LeftNavbar';
 import TopNavbar from './navbars/TopNavbar';
-import Home from './pages/Home';
+import Home from './pages/home/Home';
 //import Calendar from 'react-calendar';
 //import 'react-calendar/dist/Calendar.css';
 import cources from '../assets/images/cources-black.svg';
+import DashBoard from './pages/DashBoard';
+import Profile from './pages/Profile';
 
 const LMS = () => {
     const [value, onChange] = useState(new Date());
@@ -39,7 +41,7 @@ const LMS = () => {
                     <TopNavbar />
                 </Row>
                 <Row>
-                    <Home />
+                    <Profile/>
                 </Row>
             </Col>
             <Col className='calendar'>

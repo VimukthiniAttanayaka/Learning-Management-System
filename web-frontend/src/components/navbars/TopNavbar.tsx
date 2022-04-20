@@ -13,7 +13,7 @@ const TopNavbar = () => {
                 <h1 className='logo-text'>Virtual Learning Environment</h1>
             </Col>
             <Col xs={2} className="px-0">
-            <Image src={profile} alt='logo' className='profile'/>
+            <Image src={profile} alt='profile' className='profile'/>
             </Col>
         </Row>
     );
