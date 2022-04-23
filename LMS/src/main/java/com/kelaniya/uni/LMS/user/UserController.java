@@ -1,4 +1,4 @@
-package com.kelaniya.uni.LMS;
+package com.kelaniya.uni.LMS.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
