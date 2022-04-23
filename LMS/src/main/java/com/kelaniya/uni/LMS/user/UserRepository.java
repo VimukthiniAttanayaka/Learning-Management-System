@@ -1,4 +1,4 @@
-package com.kelaniya.uni.LMS;
+package com.kelaniya.uni.LMS.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

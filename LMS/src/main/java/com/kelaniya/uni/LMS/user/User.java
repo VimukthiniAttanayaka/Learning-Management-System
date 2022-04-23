@@ -1,4 +1,4 @@
-package com.kelaniya.uni.LMS;
+package com.kelaniya.uni.LMS.user;
 
 import jdk.jfr.Timestamp;
 import org.springframework.data.annotation.CreatedDate;

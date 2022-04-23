@@ -1,5 +1,6 @@
-package com.kelaniya.uni.LMS;
+package com.kelaniya.uni.LMS.user;
 
+import com.kelaniya.uni.LMS.ResetPasswordCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,11 @@ public class UserController {
         }
     }
 
+
+    @GetMapping("/user/{id}")
+    public User getUser(@PathVariable Integer id) {
+        return userRepository.findById(id).get();
+    }
     //RRP - request reset password
     @PostMapping("RRP_code")
     public int sendResetCode(@RequestBody User userEmail){
@@ -60,6 +66,7 @@ public class UserController {
         }else{
             return 500;
         }
+
     }
 
 }
