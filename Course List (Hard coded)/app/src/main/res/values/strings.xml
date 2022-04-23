@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Course List</string>
+
+    <string-array name="Courses">
+        <item>Computer Architecture</item>
+        <item>Software Construction</item>
+        <item>Requirement Engineering</item>
+        <item>Software Modelling</item>
+        <item>Interactive Application Development</item>
+        <item>Management for Software Engineering</item>
+        <item>Web Application Development</item>
+    </string-array>
+</resources>
