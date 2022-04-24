@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Image, Button } from 'react-bootstrap';
 import background from "../../assets/images/profilebackground.jpg";
 import avata from "../../assets/images/profileAvata.jpg";
+import { Edit, Upload } from 'react-feather';
 
 const Profile = () => {
 
@@ -24,19 +25,20 @@ const Profile = () => {
                         <p>Registated Date - </p>
                         <h4>2022-04-22</h4>
                         <p>mobile - </p>
-                        <h4>0755975740</h4>
+                        <h4 className='pe-5'>0755975740 <Edit className='text-warning edit' /></h4>
                         <p>Address - </p>
-                        <h4>No.152, Godhamunna, Thalatuoya</h4>
+                        <h4 className='pe-5'>No.152, Godhamunna, Thalatuoya <Edit className='text-warning edit' /></h4>
                     </Col>
                     <Col sm={4}>
                         <Row>
                             <Image src={avata} alt='profile backgroung' className='profile-avata' />
                         </Row>
                         <Row>
-                            <Button className='profile-edit-btn'>Edit Profile</Button>
+                            <Button className='profile-edit-btn'>Upload Image<Upload /></Button>
                         </Row>
                         <Row>
-                            <p>Discription</p>
+                            <p className='discription'>Discription</p>
+                            <p>djsfb f egr yurfrgywef g7tf7hfrh8gyt76w 5yvr6y56u5 56 u56y56uj hgerheyrjhst bej rtdhy<Edit className='text-warning edit' /></p>
                         </Row>
                     </Col>
                 </Row>

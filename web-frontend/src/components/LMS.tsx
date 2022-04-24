@@ -3,11 +3,14 @@ import { Row, Col, Image } from 'react-bootstrap';
 import LeftNavbar from './navbars/LeftNavbar';
 import TopNavbar from './navbars/TopNavbar';
 import Home from './pages/home/Home';
-//import Calendar from 'react-calendar';
-//import 'react-calendar/dist/Calendar.css';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import cources from '../assets/images/cources-black.svg';
 import DashBoard from './pages/DashBoard';
 import Profile from './pages/Profile';
+import CoursesMarks from './pages/CoursesMarks';
+import CousesTeachers from './pages/CoursesTeachers';
+import TutorialMarks from './pages/TutorialMarks';
 
 const LMS = () => {
     const [value, onChange] = useState(new Date());
@@ -41,14 +44,22 @@ const LMS = () => {
                     <TopNavbar />
                 </Row>
                 <Row>
-                    <Profile/>
+                    <CousesTeachers/>
                 </Row>
             </Col>
             <Col className='calendar'>
-                {/* {calendarShow && <Calendar onChange={onChange} value={value} />} */}
+                {calendarShow && <Calendar onChange={onChange} value={value} />}
             </Col>
-            {courseShow &&<Col className='cource'>
-                 <Row>
+            {courseShow && <Col className='cource'>
+                <Row>
+                    <Image src={cources} alt='cources' className='cource-icon' />
+                    <h6>PMAT22213 - mathamatic for computing</h6>
+                </Row>
+                <Row>
+                    <Image src={cources} alt='cources' className='cource-icon' />
+                    <h6>PMAT22213 - mathamatic for computing</h6>
+                </Row>
+                <Row>
                     <Image src={cources} alt='cources' className='cource-icon' />
                     <h6>PMAT22213 - mathamatic for computing</h6>
                 </Row>

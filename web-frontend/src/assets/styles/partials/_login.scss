@@ -13,21 +13,25 @@
         margin: auto;
         margin-top: -50%;
         background-color: white;
+
         //opacity: 0.4;
-        img{
+        img {
             width: 35%;
             display: flex;
             margin: auto;
         }
-        .form-control{
+
+        .form-control {
             color: black;
-            margin-top: 15px;
+            //margin-top: 15px;
             margin-bottom: 15px;
         }
-        h6{
+
+        h6 {
             color: #056547;
         }
-        .submit{
+
+        .submit {
             width: 100%;
             background-color: rgb(236, 229, 229);
             color: #bd3b1b;
@@ -35,7 +39,8 @@
             margin-top: 30px;
             font-weight: bold;
         }
-        .code{
+
+        .code {
             background-color: #056547;
             border: none;
             border-radius: 0;
@@ -44,7 +49,8 @@
             font-weight: bold;
             width: 130px;
         }
-        .code1{
+
+        .code1 {
             background-color: rgb(236, 229, 229);
             color: #056547;
             border: none;
@@ -54,27 +60,34 @@
             border: 1px solid #ced4da;
         }
     }
-        .submit:hover{
-            width: 100%;
-            background-color: #bd3b1b;
-            color: white;
-            border: none;
-            margin-top: 30px;
-        }
-        .code1:hover{
-            background-color: #056547;
-            color: white;
-            border: none;
-            border-radius: 0;
-            width: 100%;
-            font-weight: bold;
-        }
+
+    .submit:hover {
+        width: 100%;
+        background-color: #bd3b1b;
+        color: white;
+        border: none;
+        margin-top: 30px;
+    }
+
+    .code1:hover {
+        background-color: #056547;
+        color: white;
+        border: none;
+        border-radius: 0;
+        width: 100%;
+        font-weight: bold;
+    }
 
 }
-.register{
+
+.register {
     width: 700px !important;
     margin-top: -700px !important;
-    img{
+
+    img {
         width: 20% !important;
     }
+}
+.errors{
+    color: red;
 }

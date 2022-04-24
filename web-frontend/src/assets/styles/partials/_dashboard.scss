@@ -7,12 +7,14 @@
         text-align: left;
         font-weight: bold;
     }
-    .dropdown-menu{
+
+    .dropdown-menu {
         position: relative !important;
-        transform:none !important;
+        transform: none !important;
         padding-bottom: 20px;
     }
-    .dropdown-enroll{
+
+    .dropdown-enroll {
         background-color: #056547;
         border: none;
         width: 120px;
@@ -20,12 +22,14 @@
         float: right;
         padding: 0;
     }
-    .dropdown-toggle::after{
+
+    .dropdown-toggle::after {
         display: none;
         // display: flex;
         // align-items:flex-end;
     }
-    .dropdown-icon{
+
+    .dropdown-icon {
         display: flex;
         float: right;
         fill: white;

@@ -1,11 +1,13 @@
-.row{
+.row {
     margin-right: 0;
 }
+
 .left-navbar {
     position: fixed;
     height: 620px;
     background-color: #056547;
     width: 100px;
+    z-index: 50;
 }
 
 .calassaple-btn {
@@ -27,58 +29,86 @@
     margin-top: 30px;
     margin-bottom: 10px;
 }
+
+.icon:hover {
+    width: 75%;
+}
+
 .icon1 {
     width: 35% !important;
     margin-left: 5px;
     margin-top: 30px;
     margin-bottom: 10px;
 }
-.icon-text{
+
+.icon1:hover {
+    width: 38% !important;
+}
+
+.icon-text {
     margin-top: -45px;
     margin-left: 60px;
     color: white;
 }
-.navbar{
+
+.navbar {
     background-color: #056547;
     width: 200px;
 }
-.topnav-content{
+
+.topnav-content {
     padding-left: 124px;
 }
-.top-navbar{
+
+.top-navbar {
     position: fixed;
     background-image: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0.836), rgba(255, 255, 255, 0.205));
     height: 90px;
     width: 100%;
-    .logo{
+    z-index: 100;
+
+    .logo {
         margin-top: 10px;
         width: 80px;
     }
-    .logo-text{
+
+    .logo-text {
         margin-top: 20px;
         color: #056547;
-        font-weight:400;
+        font-weight: 400;
     }
-    .profile{
+
+    .profile {
         margin-top: 25px;
         width: 40px;
     }
+
+    .profile:hover {
+        width: 45px;
+    }
 }
-.calendar{
+
+.calendar {
     position: fixed;
     margin-left: 90px;
     margin-top: 150px;
+    z-index: 1000;
 }
-.cource{
+
+.cource {
     position: fixed;
     width: 250px;
     background-color: #056547;
     margin-left: 90px;
     margin-top: 150px;
-    .cource-icon{
+    z-index: 1000;
+    padding-right: 20px;
+
+    .cource-icon {
         width: 50px;
     }
-    h6{
+
+    h6 {
         margin-top: -23px;
         margin-left: 30px;
         color: white;

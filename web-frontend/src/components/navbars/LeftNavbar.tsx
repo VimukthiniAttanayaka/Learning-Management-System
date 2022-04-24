@@ -10,9 +10,9 @@ type LeftNavbarProps = {
     calendar: () => void,
     course: () => void
 }
-const LeftNavbar:React.FC<LeftNavbarProps> = (props) => {
+const LeftNavbar: React.FC<LeftNavbarProps> = (props) => {
 
-    const {calendar, course} = props;
+    const { calendar, course } = props;
 
     return (
         <Row className='left-navbar'>

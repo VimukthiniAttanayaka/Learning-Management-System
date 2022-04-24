@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Row, Col, Image, Form, Button } from 'react-bootstrap';
 import background from "../../assets/images/loginbackground.jpg";
 import logo from "../../assets/images/logo.png";
+import Swal from "sweetalert2";
 
 const Register = () => {
 
@@ -14,6 +15,8 @@ const Register = () => {
     const [userType, setUserType] = useState<string>("");
     const [degree, setDegree] = useState<string>("");
     const [mobile, setMobile] = useState<string>("");
+    const [error, setError] = useState<string>("");
+    const [code, setCode] = useState<string>("");
 
     const handleOnFirstNameChanged = (name: string) => {
         setFirstName(name);
@@ -36,9 +39,11 @@ const Register = () => {
     const handleOnMobileChanged = (name: string) => {
         setMobile(name);
     };
+    const handleOnCodeChanged = (name: string) => {
+        setCode(name);
+    };
 
     async function requestdata() {
-        console.log("hi");
 
         let data = {
             first_name: firstName,
@@ -60,10 +65,53 @@ const Register = () => {
             body: JSON.stringify(data)
         });
         if (response.status === 200) {
-            console.log(response);
-            alert("correct")
+            //console.log(response);
+            Swal.fire({
+                title: "You Successfully Register to system",
+                text: "",
+                icon: "success",
+                showCancelButton: false,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "white",
+                confirmButtonText: "Ok",
+            }).then((result: any) => {
+                if (result.isConfirmed) {
+                    //console.log(id);
+                }
+            });
         } else {
-            alert("Something goes wrong. Please try again.")
+            Swal.fire({
+                title: "Something goes wrong. Please try again.",
+                text: "",
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "white",
+                confirmButtonText: "Ok",
+            }).then((result: any) => {
+                if (result.isConfirmed) {
+                    //console.log(id);
+                }
+            });
+        }
+    }
+
+    async function requestdataCode() {
+
+        let data = {
+            code: code
+        }
+        const response = await fetch("http://localhost:8080/log_in", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (response.status === 200) {
+            //console.log(response);
+        } else {
         }
     }
 
@@ -76,12 +124,10 @@ const Register = () => {
         }
         setValidated(true);
         if (!firstName || !lastName || !email || !degree || !password || !rePassword) {
-            alert("feilds can not be null");
-            setValidated(false);
+            setError("fields can not be empty");
         }
         else if (password !== rePassword) {
-            alert("password need to be same value");
-            setValidated(false);
+            setError("password and repassword need to be same");
         }
         else {
             requestdata();
@@ -89,6 +135,39 @@ const Register = () => {
         }
     }
 
+    const handleSubmitCode = (event: any) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        setValidated(true);
+        if (!code) {
+            setError("Enter code we send your email");
+        } else {
+            requestdataCode();
+            setValidated(false);
+        }
+    }
+    async function requestdataData() {
+
+        let data = {
+            code: code
+        }
+        const response = await fetch("http://localhost:8080/log_in", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (response.status === 200) {
+            //console.log(response);
+        } else {
+        }
+    }
     return (
         <Row className='login-page'>
             <Col xs={12} className='p-0'>
@@ -136,12 +215,16 @@ const Register = () => {
                                     } />
                             </Col>
                         </Row>
+                        <p className='errors'>{error}</p>
                         <Button variant="primary" type="submit" className='submit mt-2'>
                             Regitster
                         </Button>
                     </Form>
-                    <Form>
-                        <Form.Control type="text" placeholder="code" required />
+                    <Form noValidate validated={validated} onSubmit={handleSubmitCode}>
+                        <Form.Control type="text" placeholder="code" required value={mobile}
+                                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                                        handleOnCodeChanged(ev.target.value)
+                                    }/>
                         <Button variant="primary" type="submit" className='code'>
                             Verify
                         </Button>
