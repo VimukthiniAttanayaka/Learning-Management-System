@@ -2,6 +2,10 @@
     margin-right: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
 .left-navbar {
     position: fixed;
     height: 620px;
@@ -32,6 +36,7 @@
 
 .icon:hover {
     width: 75%;
+    margin-bottom: 5.5px;
 }
 
 .icon1 {
@@ -43,6 +48,7 @@
 
 .icon1:hover {
     width: 38% !important;
+    margin-bottom: 4px;
 }
 
 .icon-text {
