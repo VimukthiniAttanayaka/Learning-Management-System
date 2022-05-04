@@ -13,44 +13,36 @@ import { IMyCourse } from '../types/LMSTypes';
 
 const DashBoard = () => {
 
-    const science: IAllCourse[] = [];
-    const commerce: IAllCourse[] = [];
-    const humanities: IAllCourse[] = [];
-    const socialScience: IAllCourse[] = [];
-    const medicine: IAllCourse[] = [];
-    const computing: IAllCourse[] = [];
-
-    const courses: IAllCourse[] = [
-        { id: 1, name: 'EE111 - Effective', faculty: 1 },
-        { id: 2, name: 'EE112 - Effective English Usage', faculty: 5 },
-        { id: 3, name: 'EE113 - Effective English Usage', faculty: 2 },
-        { id: 4, name: 'EE114 - Effective English Usage', faculty: 2 },
-        { id: 5, name: 'EE115 - Effective English Usage', faculty: 4 },
-        { id: 7, name: 'EE115 - Effective English Usage', faculty: 3 },
+    const science: IAllCourse[] = [
+        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
     ];
-
-    const CoursesFaculty = () => {
-        for (var i = 0; i < courses.length; i++) {
-            if (courses[i].faculty == 1) {
-                science.push(courses[i]);
-            }
-            else if (courses[i].faculty == 2) {
-                commerce.push(courses[i]);
-            }
-            else if (courses[i].faculty == 3) {
-                humanities.push(courses[i]);
-            }
-            else if (courses[i].faculty == 4) {
-                socialScience.push(courses[i]);
-            }
-            else if (courses[i].faculty == 5) {
-                medicine.push(courses[i]);
-            }
-            else if (courses[i].faculty == 6) {
-                computing.push(courses[i]);
-            }
-        }
-    }
+    const commerce: IAllCourse[] = [
+        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    ];
+    const humanities: IAllCourse[] = [
+        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    ];
+    const socialScience: IAllCourse[] = [
+        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    ];
+    const medicine: IAllCourse[] = [
+        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    ];
+    const computing: IAllCourse[] = [
+        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    ];
 
     const enrollRequest = (id: number, name: string) => {
         Swal.fire({
@@ -237,7 +229,6 @@ const DashBoard = () => {
                         <Col xs={12} className='my-courses my-3'>
                             <h2>All Courses</h2>
                         </Col>
-                        {CoursesFaculty()}
                         {CourseShow()}
                     </Row>
                 </Row>

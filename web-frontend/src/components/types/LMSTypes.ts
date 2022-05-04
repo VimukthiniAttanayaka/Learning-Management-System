@@ -5,7 +5,8 @@ export interface IMyCourse {
 export interface IAllCourse {
     id: number;
     name: string;
-    faculty: number;
+    semester:string;
+    // faculty: number;
 }
 export interface ITutorialMarks {
     name: string;

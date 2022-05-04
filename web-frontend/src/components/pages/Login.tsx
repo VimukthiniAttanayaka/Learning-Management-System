@@ -18,12 +18,12 @@ const Login = () => {
     };
 
     async function requestdata() {
-
+        console.log(email, password);
         let data = {
             email: email,
             password: password
         }
-        const response = await fetch("http://localhost:8080/log_in", {
+        const response = await fetch("http://localhost:8080/userlogin", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -89,7 +89,7 @@ const Login = () => {
             </Col>
             <Col>
                 <Row className='login-content px-4 pt-3 pb-5'>
-                    <Image src={logo} />
+                    <Image src={logo} className='mb-3'/>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Control type="email" placeholder="Enter email" required value={email}
                                     onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>

@@ -216,7 +216,7 @@ const Register = () => {
                             </Col>
                         </Row>
                         <p className='errors'>{error}</p>
-                        <Button variant="primary" type="submit" className='submit mt-2'>
+                        <Button variant="primary" type="submit" className='submit mt-2 mb-3'>
                             Regitster
                         </Button>
                     </Form>
