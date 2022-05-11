@@ -3,8 +3,19 @@ import { Row, Col, Image, Form, Button } from 'react-bootstrap';
 import background from "../../assets/images/loginbackground.jpg";
 import logo from "../../assets/images/logo.png";
 import Swal from "sweetalert2";
+import Select from "react-select";
+import { DropDown } from '../types/LMSTypes';
+import store, { selectCount } from '../../redux/configureStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { addEmail, isUserLogged } from '../../redux/user';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+
+    const navigate = useNavigate();
+
+    const count = useSelector(selectCount);
+    const dispatch = useDispatch();
 
     const [validated, setValidated] = useState(false);
     const [firstName, setFirstName] = useState<string>("");
@@ -39,9 +50,20 @@ const Register = () => {
     const handleOnMobileChanged = (name: string) => {
         setMobile(name);
     };
+    const handleOnUseTypeChanged = (name: DropDown | null) => {
+        if (!name) {
+            return;
+          }
+        setUserType(name.value);
+    };
     const handleOnCodeChanged = (name: string) => {
         setCode(name);
     };
+
+    const authors = [
+        { value: "Student", label: "Student" },
+        { value: "Teacher", label: "Teacher" }
+    ];
 
     async function requestdata() {
 
@@ -52,7 +74,7 @@ const Register = () => {
             home_address: "kadugaammulla",
             degree_program: degree,
             phone: mobile,
-            user_type: "student",
+            user_type: userType,
             email: email,
             password: password
         }
@@ -76,6 +98,9 @@ const Register = () => {
                 confirmButtonText: "Ok",
             }).then((result: any) => {
                 if (result.isConfirmed) {
+                    dispatch(addEmail(email));
+                    dispatch(isUserLogged(true));
+                    navigate('/home');
                     //console.log(id);
                 }
             });
@@ -191,6 +216,12 @@ const Register = () => {
                                     onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
                                         handleOnPasswordChanged(ev.target.value)
                                     } />
+                                <Select
+                                    options={authors}
+                                    onChange={(selected: DropDown | null) => {
+                                        handleOnUseTypeChanged(selected);
+                                    }}
+                                />
                                 <Form.Select>
                                     <option>Student</option>
                                     <option>Teacher</option>
@@ -222,9 +253,9 @@ const Register = () => {
                     </Form>
                     <Form noValidate validated={validated} onSubmit={handleSubmitCode}>
                         <Form.Control type="text" placeholder="code" required value={mobile}
-                                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                                        handleOnCodeChanged(ev.target.value)
-                                    }/>
+                            onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                                handleOnCodeChanged(ev.target.value)
+                            } />
                         <Button variant="primary" type="submit" className='code'>
                             Verify
                         </Button>

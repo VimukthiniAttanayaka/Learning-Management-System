@@ -26,3 +26,7 @@ export interface IAssignTask {
     assignDate: string;
     dueDate: string;
 }
+export interface DropDown {
+    value: string;
+    label: string;
+  }

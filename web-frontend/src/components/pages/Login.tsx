@@ -1,10 +1,20 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Image, Form, Button } from 'react-bootstrap';
 import background from "../../assets/images/loginbackground.jpg";
 import logo from "../../assets/images/logo.png";
 import Swal from "sweetalert2";
+import store, { selectCount } from '../../redux/configureStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { addEmail, isUserLogged } from '../../redux/user';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const navigate = useNavigate();
+
+    const count = useSelector(selectCount);
+    const dispatch = useDispatch();
+
     const [validated, setValidated] = useState(false);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -43,6 +53,9 @@ const Login = () => {
                 confirmButtonText: "Ok",
             }).then((result: any) => {
                 if (result.isConfirmed) {
+                    dispatch(addEmail(email));
+                    dispatch(isUserLogged(true));
+                    navigate('/home');
                     //console.log(id);
                 }
             });
@@ -89,16 +102,16 @@ const Login = () => {
             </Col>
             <Col>
                 <Row className='login-content px-4 pt-3 pb-5'>
-                    <Image src={logo} className='mb-3'/>
+                    <Image src={logo} className='mb-3' />
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Control type="email" placeholder="Enter email" required value={email}
-                                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                                        handleOnEmailChanged(ev.target.value)
-                                    }/>
+                            onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                                handleOnEmailChanged(ev.target.value)
+                            } />
                         <Form.Control type="password" placeholder="Password" required value={password}
-                                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                                        handleOnPasswordChanged(ev.target.value)
-                                    }/>
+                            onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                                handleOnPasswordChanged(ev.target.value)
+                            } />
 
                         <h6>Forgot Your Password? </h6>
                         <p className='errors'>{error}</p>
