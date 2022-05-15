@@ -1,0 +1,57 @@
+package com.kelaniya.uni.lms.controller;
+
+import com.kelaniya.uni.lms.entity.User;
+import com.kelaniya.uni.lms.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.PostConstruct;
+
+@RestController
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+
+    @PostConstruct
+    public void initRoleAndUser() {
+        userService.initRoleAndUser();
+    }
+
+    @PostMapping({"/registerNewUser"})
+    public ResponseEntity registerNewUser(@RequestBody User user) {
+        return userService.registerNewUser(user);
+    }
+
+    @PostMapping({"/getResetCode"})
+    public int getResetCode(@RequestBody User userName){
+        return userService.sendResetCode(userName.getUserName());
+    }
+
+    @PostMapping({"/updatePassword"})
+    public User updatePassword(@RequestBody User user) throws Exception {
+        try{
+            return userService.updatePassword(user.getUserPassword());
+        }catch (Exception e){
+            throw new Exception("Couldn't update password");
+        }
+    }
+
+    @GetMapping({"/forAdmin"})
+    @PreAuthorize("hasRole('Admin')")
+    public String forAdmin(){
+        return "This URL is only accessible to the admin";
+    }
+
+    @GetMapping({"/forUser"})
+    @PreAuthorize("hasRole('User')")
+    public String forUser(){
+        return "This URL is only accessible to the user";
+    }
+}
