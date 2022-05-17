@@ -1,5 +1,6 @@
 package com.kelaniya.uni.lms.controller;
 
+import com.kelaniya.uni.lms.entity.Course;
 import com.kelaniya.uni.lms.entity.User;
 import com.kelaniya.uni.lms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class UserController {
         }catch (Exception e){
             throw new Exception("Couldn't update password");
         }
+    }
+
+    @PostMapping({"/registerUserToCourse"})
+    public String registerUserToCourse(@RequestBody Course course){
+        return userService.registerUserToCourse(course);
     }
 
     @GetMapping({"/forAdmin"})

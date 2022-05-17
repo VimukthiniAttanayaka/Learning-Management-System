@@ -1,5 +1,7 @@
 package com.kelaniya.uni.lms.service;
 
+import com.kelaniya.uni.lms.dao.CourseDao;
+import com.kelaniya.uni.lms.entity.Course;
 import com.kelaniya.uni.lms.entity.Role;
 import com.kelaniya.uni.lms.entity.User;
 import com.kelaniya.uni.lms.dao.RoleDao;
@@ -7,6 +9,8 @@ import com.kelaniya.uni.lms.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,9 @@ public class UserService {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private CourseDao courseDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -98,6 +105,24 @@ public class UserService {
     public User updatePassword(String password){
         userDao.restorePassword(getEncodedPassword(password), resetUserName);
         return null;
+    }
+
+    public String registerUserToCourse(Course course){
+        Course addCourse = courseDao.findById(course.getCourseCode()).get();
+        Set<Course> userCourse = new HashSet<>();
+        userCourse.add(addCourse);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String username = userDetails.getUsername();
+
+        User user = userDao.findById(username).get();
+        userDao.delete(user);
+
+        user.setCourses(userCourse);
+        userDao.save(user);
+        return "success";
+
     }
 
     public String getEncodedPassword(String password) {
