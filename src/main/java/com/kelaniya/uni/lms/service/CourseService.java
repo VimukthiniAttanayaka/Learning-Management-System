@@ -16,8 +16,13 @@ public class CourseService {
     public Course createNewCourse(Course course){
         return courseDao.save(course);
     }
+
     public List<Course> getAvailableCourses(){
         return (List<Course>) courseDao.findAll();
+    }
+
+    public List<Course> getAllCoursesForSelectedDegreeProgramme(Course course){
+        return courseDao.getAllCoursesForSelectedDegreeProgramme(course.getDegreeProgramme());
     }
 
 }

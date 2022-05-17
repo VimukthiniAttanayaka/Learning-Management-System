@@ -11,6 +11,10 @@ public class User {
     private String userFirstName;
     private String userLastName;
     private String userPassword;
+    private String homeAddress;
+    private String degreeProgramme;
+    private String phone;
+    private String roleName;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLE",
             joinColumns = {
@@ -21,17 +25,6 @@ public class User {
             }
     )
     private Set<Role> role;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_COURSE",
-            joinColumns = {
-                    @JoinColumn(name = "USER_ID")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "COURSE_ID")
-            }
-    )
-    private Set<Course> courses;
 
     public String getUserName() {
         return userName;
@@ -73,11 +66,35 @@ public class User {
         this.role = role;
     }
 
-    public Set<Course> getCourses() {
-        return courses;
+    public String getHomeAddress() {
+        return homeAddress;
     }
 
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public String getDegreeProgramme() {
+        return degreeProgramme;
+    }
+
+    public void setDegreeProgramme(String degreeProgramme) {
+        this.degreeProgramme = degreeProgramme;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

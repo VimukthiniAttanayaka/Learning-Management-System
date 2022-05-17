@@ -9,6 +9,7 @@ public class Course {
     @Id
     private String courseCode;
     private String courseName;
+    private String degreeProgramme;
 
     public String getCourseCode() {
         return courseCode;
@@ -24,5 +25,13 @@ public class Course {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String getDegreeProgramme() {
+        return degreeProgramme;
+    }
+
+    public void setDegreeProgramme(String degreeProgramme) {
+        this.degreeProgramme = degreeProgramme;
     }
 }

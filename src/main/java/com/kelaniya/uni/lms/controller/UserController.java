@@ -1,6 +1,5 @@
 package com.kelaniya.uni.lms.controller;
 
-import com.kelaniya.uni.lms.entity.Course;
 import com.kelaniya.uni.lms.entity.User;
 import com.kelaniya.uni.lms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,19 +43,14 @@ public class UserController {
         }
     }
 
-    @PostMapping({"/registerUserToCourse"})
-    public String registerUserToCourse(@RequestBody Course course){
-        return userService.registerUserToCourse(course);
-    }
-
     @GetMapping({"/forAdmin"})
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('Teacher')")
     public String forAdmin(){
         return "This URL is only accessible to the admin";
     }
 
     @GetMapping({"/forUser"})
-    @PreAuthorize("hasRole('User')")
+    @PreAuthorize("hasRole('Student')")
     public String forUser(){
         return "This URL is only accessible to the user";
     }

@@ -13,4 +13,5 @@ public interface UserDao extends CrudRepository<User, String> {
     @Modifying
     @Query("UPDATE user SET userPassword = :userPassword WHERE userName = :userName")
     Integer restorePassword(String userPassword, String userName);
+
 }

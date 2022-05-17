@@ -9,8 +9,6 @@ import com.kelaniya.uni.lms.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,14 +35,26 @@ public class UserService {
 
     public void initRoleAndUser() {
 
+        Course course1 = new Course();
+        course1.setCourseCode("SENG 1212");
+        course1.setCourseName("Statistics");
+        course1.setDegreeProgramme("se");
+        courseDao.save(course1);
+
+        Course course2 = new Course();
+        course2.setCourseCode("SENG 1122");
+        course2.setCourseName("Programming");
+        course2.setDegreeProgramme("ma");
+        courseDao.save(course2);
+
         Role adminRole = new Role();
-        adminRole.setRoleName("Admin");
-        adminRole.setRoleDescription("Admin role");
+        adminRole.setRoleName("Teacher");
+        adminRole.setRoleDescription("Teacher role");
         roleDao.save(adminRole);
 
         Role userRole = new Role();
-        userRole.setRoleName("User");
-        userRole.setRoleDescription("Default role for newly created record");
+        userRole.setRoleName("Student");
+        userRole.setRoleDescription("Student Role");
         roleDao.save(userRole);
 
         User adminUser = new User();
@@ -69,7 +79,7 @@ public class UserService {
     }
 
     public ResponseEntity registerNewUser(User user) {
-        Role role = roleDao.findById("User").get();
+        Role role = roleDao.findById(user.getRoleName()).get();
         Set<Role> userRoles = new HashSet<>();
         userRoles.add(role);
         user.setRole(userRoles);
@@ -77,7 +87,7 @@ public class UserService {
 
         try{
             String registeringUser = userDao.findById(user.getUserName()).get().getUserName();
-            return new ResponseEntity(HttpStatus.ALREADY_REPORTED);
+            return new ResponseEntity(HttpStatus.MULTI_STATUS);
         }catch (Exception e){
             userDao.save(user);
             return new ResponseEntity(HttpStatus.OK);
@@ -105,24 +115,6 @@ public class UserService {
     public User updatePassword(String password){
         userDao.restorePassword(getEncodedPassword(password), resetUserName);
         return null;
-    }
-
-    public String registerUserToCourse(Course course){
-        Course addCourse = courseDao.findById(course.getCourseCode()).get();
-        Set<Course> userCourse = new HashSet<>();
-        userCourse.add(addCourse);
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-        String username = userDetails.getUsername();
-
-        User user = userDao.findById(username).get();
-        userDao.delete(user);
-
-        user.setCourses(userCourse);
-        userDao.save(user);
-        return "success";
-
     }
 
     public String getEncodedPassword(String password) {
