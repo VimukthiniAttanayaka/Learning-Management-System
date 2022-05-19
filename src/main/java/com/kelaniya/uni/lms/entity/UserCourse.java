@@ -4,7 +4,7 @@ import com.kelaniya.uni.lms.dao.MyKey;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "userCourse")
 @IdClass(MyKey.class)
 public class UserCourse {
     @Id
@@ -12,6 +12,8 @@ public class UserCourse {
 
     @Id
     private String courseId;
+
+    private int marks;
 
     public String getUserEmail() {
         return userEmail;
@@ -27,5 +29,13 @@ public class UserCourse {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    public int getMarks() {
+        return marks;
+    }
+
+    public void setMarks(int marks) {
+        this.marks = marks;
     }
 }
