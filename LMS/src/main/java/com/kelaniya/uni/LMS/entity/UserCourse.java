@@ -8,9 +8,11 @@ import javax.persistence.*;
 @IdClass(MyKey.class)
 public class UserCourse {
     @Id
+    @Column(length = 10)
     private String userEmail;
 
     @Id
+    @Column(length = 10)
     private String courseId;
 
     private int marks;

@@ -1,5 +1,6 @@
 package com.kelaniya.uni.LMS.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,6 +8,7 @@ import javax.persistence.Id;
 public class Role {
 
     @Id
+    @Column(length = 10)
     private String roleName;
     private String roleDescription;
 

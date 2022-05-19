@@ -1,5 +1,6 @@
 package com.kelaniya.uni.LMS.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,6 +8,7 @@ import javax.persistence.Id;
 public class Course {
 
     @Id
+    @Column(length = 10)
     private String courseCode;
     private String courseName;
     private String degreeProgramme;
