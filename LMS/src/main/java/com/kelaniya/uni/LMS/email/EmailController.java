@@ -15,11 +15,11 @@ public class EmailController {
     @Autowired
     private EmailService emailservice;
 
-    @PostMapping("/sendemail")
-    public ResponseEntity<String> sendemail(@RequestBody EmailRequest emailrequest)
+    @PostMapping("/sendEmail")
+    public ResponseEntity<String> sendEmail(@RequestBody EmailRequest emailrequest)
     {
 
-        Response response=emailservice.sendemail(emailrequest);
+        Response response=emailservice.sendEmail(emailrequest);
         if(response.getStatusCode()==200||response.getStatusCode()==202)
             return new ResponseEntity<>("send successfully",HttpStatus.OK);
         return new ResponseEntity<>("failed to sent",HttpStatus.NOT_FOUND);

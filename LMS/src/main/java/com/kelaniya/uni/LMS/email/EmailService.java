@@ -22,7 +22,7 @@ public class EmailService {
     @Autowired
     SendGrid sendGrid;
 
-    public Response sendemail(EmailRequest emailrequest)
+    public Response sendEmail(EmailRequest emailrequest)
     {
 
         Mail mail = new Mail(new Email("etextile2021@gmail.com"), emailrequest.getSubject(), new Email(emailrequest.getTo()),new Content("text/plain", emailrequest.getBody()));
