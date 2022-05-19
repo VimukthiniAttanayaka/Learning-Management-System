@@ -7,9 +7,10 @@ import store, { selectCount } from '../../redux/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmail, isUserLogged } from '../../redux/user';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 const Login = () => {
 
+    const [comments, setComments] = useState([])
     const navigate = useNavigate();
 
     const count = useSelector(selectCount);
@@ -30,50 +31,61 @@ const Login = () => {
     async function requestdata() {
         console.log(email, password);
         let data = {
-            email: email,
-            password: password
+            userName: email,
+            userPassword: password
         }
-        const response = await fetch("http://localhost:8080/userlogin", {
+
+        axios.post('http://localhost:8080/authenticate', data).then(res => {
+
+
+            localStorage.setItem('role', res.data.user.role[0].roleName)
+            localStorage.setItem('token', res.data.jwtToken)
+
+            if (res.status === 200) {
+                Swal.fire({
+                    title: "You Successfully login to system",
+                    text: "",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        dispatch(addEmail(email));
+                        dispatch(isUserLogged(true));
+                        navigate('/home');
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Something goes wrong. Please try again.",
+                    text: "",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        //console.log(id);
+                    }
+                });
+            }
+
+        })
+        /*
+        const response = await fetch(.", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        });
-        if (response.status === 200) {
-            //console.log(response);
-            Swal.fire({
-                title: "You Successfully login to system",
-                text: "",
-                icon: "success",
-                showCancelButton: false,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "white",
-                confirmButtonText: "Ok",
-            }).then((result: any) => {
-                if (result.isConfirmed) {
-                    dispatch(addEmail(email));
-                    dispatch(isUserLogged(true));
-                    navigate('/home');
-                    //console.log(id);
-                }
-            });
-        } else {
-            Swal.fire({
-                title: "Something goes wrong. Please try again.",
-                text: "",
-                icon: "error",
-                showCancelButton: false,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "white",
-                confirmButtonText: "Ok",
-            }).then((result: any) => {
-                if (result.isConfirmed) {
-                    //console.log(id);
-                }
-            });
-        }
+        })
+        console.log(response)
+
+        */
     }
 
     const handleSubmit = (event: any) => {
@@ -113,7 +125,7 @@ const Login = () => {
                                 handleOnPasswordChanged(ev.target.value)
                             } />
 
-                        <h6>Forgot Your Password? </h6>
+                        <a href='/resetpassword'><h6>Forgot Your Password? </h6></a>
                         <p className='errors'>{error}</p>
                         <Button variant="primary" type="submit" className='submit mt-4'>
                             Submit

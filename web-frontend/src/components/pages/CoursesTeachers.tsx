@@ -136,6 +136,7 @@ const CoursesTeachers = () => {
                     <Col xs={12} className='ps-5 my-5'>
                         <Button className='new-task'>New Task</Button>
                         <Button className='new-task'>New Annousment</Button>
+                        <Button className='new-task float-right background-green me-5 pe-5'>Course Final Marks</Button>
                     </Col>
                     <Col xs={12} className='ps-5'>
                         <Row>

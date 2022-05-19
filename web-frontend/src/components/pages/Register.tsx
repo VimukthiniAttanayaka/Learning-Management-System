@@ -9,6 +9,7 @@ import store, { selectCount } from '../../redux/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmail, isUserLogged } from '../../redux/user';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Register = () => {
 
@@ -69,7 +70,6 @@ const Register = () => {
 
         let data = {
             first_name: firstName,
-            middle_name: "chathuranga",
             last_name: lastName,
             home_address: "kadugaammulla",
             degree_program: degree,
@@ -78,47 +78,54 @@ const Register = () => {
             email: email,
             password: password
         }
-        const response = await fetch("http://localhost:8080/sign_up", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (response.status === 200) {
-            //console.log(response);
-            Swal.fire({
-                title: "You Successfully Register to system",
-                text: "",
-                icon: "success",
-                showCancelButton: false,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "white",
-                confirmButtonText: "Ok",
-            }).then((result: any) => {
-                if (result.isConfirmed) {
-                    dispatch(addEmail(email));
-                    dispatch(isUserLogged(true));
-                    navigate('/home');
-                    //console.log(id);
-                }
-            });
-        } else {
-            Swal.fire({
-                title: "Something goes wrong. Please try again.",
-                text: "",
-                icon: "error",
-                showCancelButton: false,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "white",
-                confirmButtonText: "Ok",
-            }).then((result: any) => {
-                if (result.isConfirmed) {
-                    //console.log(id);
-                }
-            });
-        }
+        axios.post('http://localhost:8080/registerNewUser',data).then(res=>{
+            
+            
+            localStorage.setItem('role',res.data.user.role[0].roleName)
+            localStorage.setItem('token',res.data.jwtToken)
+
+            if (res.status === 200) {
+                console.log(res);
+                Swal.fire({
+                    title: "You Successfully Register to system",
+                    text: "",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        dispatch(addEmail(email));
+                        dispatch(isUserLogged(true));
+                        navigate('/home');
+                        //console.log(id);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Something goes wrong. Please try again.",
+                    text: "",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        //console.log(id);
+                    }
+                });
+            }
+    })
+        // const response = await fetch("http://localhost:8080/sign_up", {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data)
+        // });
     }
 
     async function requestdataCode() {
@@ -222,10 +229,6 @@ const Register = () => {
                                         handleOnUseTypeChanged(selected);
                                     }}
                                 />
-                                <Form.Select>
-                                    <option>Student</option>
-                                    <option>Teacher</option>
-                                </Form.Select>
                             </Col>
                             <Col xs={6}>
                                 <Form.Control type="text" placeholder="Last Name" required value={lastName}
