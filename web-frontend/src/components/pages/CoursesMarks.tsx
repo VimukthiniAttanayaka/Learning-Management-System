@@ -8,8 +8,11 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import cources from '../../assets/images/cources-black.svg';
 import { IMyCourse } from '../types/LMSTypes';
+import { useNavigate } from 'react-router-dom';
 
 const CoursesMarks = () => {
+
+    const navigate = useNavigate();
 
     const courses: ICourseMarks[] = [
         { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
@@ -50,6 +53,15 @@ const CoursesMarks = () => {
         { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
     ];
 
+    const user = localStorage.getItem('role');
+    var courseLink: any;
+    user === 'Teacher' ? courseLink = '/coursesteachers' : courseLink = '';
+
+    const courseNavigate = (id: string) => {
+        localStorage.setItem('courseId', id)
+        navigate(courseLink);
+    }
+
     const MyCourseList = () => {
         return (
             <Row className='width-100'>
@@ -57,7 +69,7 @@ const CoursesMarks = () => {
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row>
+                        <Row onClick={() => courseNavigate(course.name)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
                             <h6>{course.name}</h6>
                         </Row>

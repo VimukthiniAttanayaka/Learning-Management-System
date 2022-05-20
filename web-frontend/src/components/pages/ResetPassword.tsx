@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Image, Form, Button } from 'react-bootstrap';
 import background from "../../assets/images/loginbackground.jpg";
 import logo from "../../assets/images/logo.png";
@@ -25,7 +25,7 @@ const ResetPassword = () => {
     const handleOnCodeChanged = (name: string) => {
         setCode(name);
     };
-    
+
     async function requestdataEmail() {
 
         let data = {
@@ -170,32 +170,32 @@ const ResetPassword = () => {
                     <Image src={logo} />
                     <Form noValidate validated={validated} onSubmit={handleSubmitEmail}>
                         <Form.Control type="email" placeholder="email" required value={email}
-                                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                                        handleOnEmailChanged(ev.target.value)
-                                    }/>
+                            onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                                handleOnEmailChanged(ev.target.value)
+                            } />
                         <Button variant="primary" type="submit" className='code'>
                             Send Code
                         </Button>
                     </Form>
                     <Form noValidate validated={validated} onSubmit={handleSubmitCode}>
                         <Form.Control type="text" placeholder="code" required value={code}
-                                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                                        handleOnCodeChanged(ev.target.value)
-                                    }/>
+                            onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                                handleOnCodeChanged(ev.target.value)
+                            } />
                         <Button variant="primary" type="submit" className='code'>
                             Verify
                         </Button>
                     </Form>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Control type="password" placeholder="New Password" required value={password}
-                                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                                        handleOnPasswordChanged(ev.target.value)
-                                    }/>
+                            onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                                handleOnPasswordChanged(ev.target.value)
+                            } />
                         <Form.Control type="password" placeholder="Retype Password" required value={rePassword}
-                                    onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                                        handleOnRePasswordChanged(ev.target.value)
-                                    }/>
-                                    <p className='errors'>{error}</p>
+                            onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+                                handleOnRePasswordChanged(ev.target.value)
+                            } />
+                        <p className='errors'>{error}</p>
                         <Button variant="primary" type="submit" className='submit'>
                             Reset Password
                         </Button>

@@ -80,6 +80,10 @@
 
 }
 
+#hide {
+    display: none;
+}
+
 .register {
     width: 700px !important;
     //margin-top: -700px !important;
@@ -88,6 +92,7 @@
         width: 20% !important;
     }
 }
-.errors{
+
+.errors {
     color: red;
 }

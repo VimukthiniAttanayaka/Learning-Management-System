@@ -14,6 +14,10 @@ const LeftNavbar: React.FC<LeftNavbarProps> = (props) => {
 
     const { calendar, course } = props;
 
+    const user = localStorage.getItem('role');
+    var hide;
+    user === 'Teacher' ? hide = 'hide' : hide = '';
+
     return (
         <Row className='left-navbar'>
             <Col xs={12} className="items">
@@ -43,7 +47,7 @@ const LeftNavbar: React.FC<LeftNavbarProps> = (props) => {
                                     <h4 className='icon-text'>Cources</h4>
                                 </Row>
                                 <a href='/coursemarks'>
-                                    <Row className='mb-5'>
+                                    <Row id={hide} className='mb-5'>
                                         <Image src={marks} alt='marks' className='icon1' />
                                         <h4 className='icon-text'>Marks</h4>
                                     </Row>
@@ -53,14 +57,14 @@ const LeftNavbar: React.FC<LeftNavbarProps> = (props) => {
                     </Container>
                 </Navbar>
                 <a href='/home'>
-                <Row>
-                    <Image src={home} alt='home' className='icon' />
-                </Row>
+                    <Row>
+                        <Image src={home} alt='home' className='icon' />
+                    </Row>
                 </a>
                 <a href='/dashboard'>
-                <Row>
-                    <Image src={dashboard} alt='dashboard' className='icon' />
-                </Row>
+                    <Row>
+                        <Image src={dashboard} alt='dashboard' className='icon' />
+                    </Row>
                 </a>
                 <Row onClick={calendar}>
                     <Image src={calender} alt='calender' className='icon' />
@@ -69,9 +73,9 @@ const LeftNavbar: React.FC<LeftNavbarProps> = (props) => {
                     <Image src={cources} alt='cources' className='icon' />
                 </Row>
                 <a href='/coursemarks'>
-                <Row>
-                    <Image src={marks} alt='marks' className='icon' />
-                </Row>
+                    <Row id={hide} >
+                        <Image src={marks} alt='marks' className='icon' />
+                    </Row>
                 </a>
             </Col>
         </Row>

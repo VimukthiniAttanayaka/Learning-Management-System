@@ -3,9 +3,9 @@ export interface IMyCourse {
     semester: string;
 }
 export interface IAllCourse {
-    id: number;
-    name: string;
-    semester:string;
+    courseCode: string;
+    courseName: string;
+    degreeProgramme: string;
     // faculty: number;
 }
 export interface ITutorialMarks {
@@ -29,4 +29,10 @@ export interface IAssignTask {
 export interface DropDown {
     value: string;
     label: string;
-  }
+}
+
+export interface IMarkAdd {
+    name: string;
+    email: string;
+    mark: string | null;
+}

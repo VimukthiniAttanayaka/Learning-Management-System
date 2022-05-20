@@ -48,7 +48,7 @@ const Register = () => {
     const handleOnUseTypeChanged = (name: DropDown | null) => {
         if (!name) {
             return;
-          }
+        }
         setUserType(name.value);
     };
     const handleOnCodeChanged = (name: string) => {
@@ -72,11 +72,12 @@ const Register = () => {
             email: email,
             password: password
         }
-        axios.post('http://localhost:8080/registerNewUser',data).then(res=>{
-            
-            
-            localStorage.setItem('role',res.data.user.role[0].roleName)
-            localStorage.setItem('token',res.data.jwtToken)
+        axios.post('http://localhost:8080/registerNewUser', data).then(res => {
+
+
+            localStorage.setItem('role', res.data.user.role[0].roleName)
+            localStorage.setItem('token', res.data.jwtToken)
+            localStorage.setItem('email', email)
 
             if (res.status === 200) {
                 console.log(res);
@@ -109,7 +110,7 @@ const Register = () => {
                     }
                 });
             }
-    })
+        })
         // const response = await fetch("http://localhost:8080/sign_up", {
         //     method: 'POST',
         //     headers: {

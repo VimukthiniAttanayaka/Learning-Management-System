@@ -17,7 +17,7 @@ const Courses: React.FC<CoursesProps> = (props) => {
                     <Image src={home_course} />
                     <Button><h6 className='px-3 py-1'>{course.semester}</h6></Button>
                     <p className='px-3 colour-brown'>{course.name}</p>
-                    <Button variant="secondary" className='px-4 py-1 me-3 mb-3'>Access</Button>
+                    <Button variant="secondary" className='px-4 py-1 me-3 mb-3'>View</Button>
                 </Col>
             </Row>
         </Col>

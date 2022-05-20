@@ -33,9 +33,10 @@ const Login = () => {
 
         axios.post('http://localhost:8080/authenticate', data).then(res => {
 
-
             localStorage.setItem('role', res.data.user.role[0].roleName)
+            //localStorage.setItem('role', 'Student')
             localStorage.setItem('token', res.data.jwtToken)
+            localStorage.setItem('email', email)
 
             if (res.status === 200) {
                 Swal.fire({

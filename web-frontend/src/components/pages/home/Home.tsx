@@ -8,8 +8,11 @@ import TopNavbar from '../../navbars/TopNavbar';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import cources from '../../../assets/images/cources-black.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+
+    const navigate = useNavigate();
 
     const [value, onChange] = useState(new Date());
     const [calendarShow, setCalendarShow] = useState(false);
@@ -33,6 +36,15 @@ const Home = () => {
         }
     }
 
+    const user = localStorage.getItem('role');
+    var courseLink: any;
+    user === 'Teacher' ? courseLink = '/coursesteachers' : courseLink = '';
+
+    const courseNavigate = (id: string) => {
+        localStorage.setItem('courseId', id)
+        navigate(courseLink);
+    }
+
     const MyCourseList = () => {
         return (
             <Row className='width-100'>
@@ -40,7 +52,7 @@ const Home = () => {
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row>
+                        <Row onClick={() => courseNavigate(course.name)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
                             <h6>{course.name}</h6>
                         </Row>
@@ -72,7 +84,7 @@ const Home = () => {
             </Row>
         )
     }
-    
+
     return (
         <Row className='lms'>
             <Col xs={1} className="left">

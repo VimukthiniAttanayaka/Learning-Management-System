@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Image, Dropdown, Button } from 'react-bootstrap';
 import background from "../../assets/images/dashboardbackground.jpg";
 import { VscTriangleDown } from 'react-icons/vsc';
@@ -10,41 +10,112 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import cources from '../../assets/images/cources-black.svg';
 import { IMyCourse } from '../types/LMSTypes';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const DashBoard = () => {
 
-    const science: IAllCourse[] = [
-        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    ];
-    const commerce: IAllCourse[] = [
-        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    ];
-    const humanities: IAllCourse[] = [
-        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    ];
-    const socialScience: IAllCourse[] = [
-        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    ];
-    const medicine: IAllCourse[] = [
-        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    ];
-    const computing: IAllCourse[] = [
-        { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-        { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-        { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    ];
+    const navigate = useNavigate();
 
-    const enrollRequest = (id: number, name: string) => {
+    const [science, setScience] = useState<IAllCourse[]>([]);
+    const [commerce, setCommerce] = useState<IAllCourse[]>([]);
+    const [humanities, setHumanities] = useState<IAllCourse[]>([]);
+    const [socialScience, setSocialScience] = useState<IAllCourse[]>([]);
+    const [medicine, setMedicine] = useState<IAllCourse[]>([]);
+    const [computing, setComputing] = useState<IAllCourse[]>([]);
+
+    const auth = localStorage.getItem('token');
+
+    async function requestdata() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.get('http://localhost:8080/available_courses', config).then(res => {
+            console.log(res.data);
+            setScience(res.data);
+            setCommerce(res.data);
+            setHumanities(res.data);
+            setSocialScience(res.data);
+            setMedicine(res.data);
+            setComputing(res.data);
+
+        })
+    }
+    useEffect(() => {
+        requestdata();
+    }, [auth]);
+
+    async function enrollCourse(id: string) {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        let data = {
+            courseId: id
+        };
+        axios.post('http://localhost:8080/enrollToCourse', data, config).then(res => {
+            if (res.status === 200) {
+                console.log(res);
+                Swal.fire({
+                    title: "You Successfully Register to course",
+                    text: "",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Something goes wrong. Please try again.",
+                    text: "",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                    }
+                });
+            }
+
+        })
+    }
+    // const science: IAllCourse[] = [
+    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    // ];
+    // const commerce: IAllCourse[] = [
+    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    // ];
+    // const humanities: IAllCourse[] = [
+    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    // ];
+    // const socialScience: IAllCourse[] = [
+    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    // ];
+    // const medicine: IAllCourse[] = [
+    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    // ];
+    // const computing: IAllCourse[] = [
+    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
+    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
+    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
+    // ];
+
+    const enrollRequest = (id: string, name: string) => {
         Swal.fire({
             title: name,
             text: "Are You Want to Enroll this Course?",
@@ -55,7 +126,7 @@ const DashBoard = () => {
             confirmButtonText: "Yes, Enroll it!",
         }).then((result: any) => {
             if (result.isConfirmed) {
-                console.log(id);
+                enrollCourse(id);
             }
         });
     }
@@ -75,7 +146,7 @@ const DashBoard = () => {
                                 course={course}
                                 index={index}
                                 key={index}
-                            >{course.name}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.id, course.name)}>Enroll</Button></Dropdown.Item>
+                            >{course.courseName}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.courseCode, course.courseName)}>Enroll</Button></Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -91,7 +162,7 @@ const DashBoard = () => {
                                 course={course}
                                 index={index}
                                 key={index}
-                            >{course.name}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.id, course.name)}>Enroll</Button></Dropdown.Item>
+                            >{course.courseName}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.courseCode, course.courseName)}>Enroll</Button></Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -107,7 +178,7 @@ const DashBoard = () => {
                                 course={course}
                                 index={index}
                                 key={index}
-                            >{course.name}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.id, course.name)}>Enroll</Button></Dropdown.Item>
+                            >{course.courseName}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.courseCode, course.courseName)}>Enroll</Button></Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -123,7 +194,7 @@ const DashBoard = () => {
                                 course={course}
                                 index={index}
                                 key={index}
-                            >{course.name}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.id, course.name)}>Enroll</Button></Dropdown.Item>
+                            >{course.courseName}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.courseCode, course.courseName)}>Enroll</Button></Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -139,7 +210,7 @@ const DashBoard = () => {
                                 course={course}
                                 index={index}
                                 key={index}
-                            >{course.name}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.id, course.name)}>Enroll</Button></Dropdown.Item>
+                            >{course.courseName}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.courseCode, course.courseName)}>Enroll</Button></Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -155,7 +226,7 @@ const DashBoard = () => {
                                 course={course}
                                 index={index}
                                 key={index}
-                            >{course.name}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.id, course.name)}>Enroll</Button></Dropdown.Item>
+                            >{course.courseName}<Button className='dropdown-enroll' onClick={() => enrollRequest(course.courseCode, course.courseName)}>Enroll</Button></Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -194,6 +265,15 @@ const DashBoard = () => {
         { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
     ];
 
+    const user = localStorage.getItem('role');
+    var courseLink: any;
+    user === 'Teacher' ? courseLink = '/coursesteachers' : courseLink = '';
+
+    const courseNavigate = (id: string) => {
+        localStorage.setItem('courseId', id)
+        navigate(courseLink);
+    }
+
     const MyCourseList = () => {
         return (
             <Row className='width-100'>
@@ -201,7 +281,7 @@ const DashBoard = () => {
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row>
+                        <Row onClick={() => courseNavigate(course.name)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
                             <h6>{course.name}</h6>
                         </Row>
@@ -210,7 +290,7 @@ const DashBoard = () => {
             </Row>
         )
     }
-    
+
     return (
         <Row className='lms'>
             <Col xs={1} className="left">
