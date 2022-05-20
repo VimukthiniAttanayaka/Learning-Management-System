@@ -21,6 +21,7 @@ public class UserCourseService {
     }
 
     public List<UserCourse> viewMarksWithUserName(UserCourse userCourse){
+        System.out.println(userCourse.getUserEmail());
         return userCourseDao.getMarks(userCourse.getUserEmail());
     }
 
