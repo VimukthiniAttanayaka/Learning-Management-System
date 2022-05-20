@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Row, Col, Image, Dropdown, Button } from 'react-bootstrap';
 import background from "../../assets/images/dashboardbackground.jpg";
-import { Triangle } from 'react-feather';
+import { VscTriangleDown } from 'react-icons/vsc';
 import { IAllCourse } from '../types/LMSTypes';
 import Swal from "sweetalert2";
 import LeftNavbar from '../navbars/LeftNavbar';
@@ -66,7 +66,7 @@ const DashBoard = () => {
                 <Dropdown className='mb-2'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Commerce and Management Studies
-                        <Triangle className='dropdown-icon' />
+                        <VscTriangleDown className='dropdown-icon' />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
@@ -82,7 +82,7 @@ const DashBoard = () => {
                 <Dropdown className='mb-2'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Humanities
-                        <Triangle className='dropdown-icon' />
+                        <VscTriangleDown className='dropdown-icon' />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
@@ -98,7 +98,7 @@ const DashBoard = () => {
                 <Dropdown className='mb-2'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Medicine
-                        <Triangle className='dropdown-icon' />
+                        <VscTriangleDown className='dropdown-icon' />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
@@ -114,7 +114,7 @@ const DashBoard = () => {
                 <Dropdown className='mb-2'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Science
-                        <Triangle className='dropdown-icon' />
+                        <VscTriangleDown className='dropdown-icon' />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
@@ -130,7 +130,7 @@ const DashBoard = () => {
                 <Dropdown className='mb-2'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Social Science
-                        <Triangle className='dropdown-icon' />
+                        <VscTriangleDown className='dropdown-icon' />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
@@ -146,7 +146,7 @@ const DashBoard = () => {
                 <Dropdown className='mb-2'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         Computing and Technology
-                        <Triangle className='dropdown-icon' />
+                        <VscTriangleDown className='dropdown-icon' />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>

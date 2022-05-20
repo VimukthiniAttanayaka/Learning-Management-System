@@ -3,18 +3,14 @@ import { Row, Col, Image, Form, Button } from 'react-bootstrap';
 import background from "../../assets/images/loginbackground.jpg";
 import logo from "../../assets/images/logo.png";
 import Swal from "sweetalert2";
-import store, { selectCount } from '../../redux/configureStore';
-import { useDispatch, useSelector } from 'react-redux';
-import { addEmail, isUserLogged } from '../../redux/user';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 const Login = () => {
 
     const [comments, setComments] = useState([])
     const navigate = useNavigate();
 
-    const count = useSelector(selectCount);
-    const dispatch = useDispatch();
 
     const [validated, setValidated] = useState(false);
     const [email, setEmail] = useState<string>("");
@@ -52,8 +48,6 @@ const Login = () => {
                     confirmButtonText: "Ok",
                 }).then((result: any) => {
                     if (result.isConfirmed) {
-                        dispatch(addEmail(email));
-                        dispatch(isUserLogged(true));
                         navigate('/home');
                     }
                 });

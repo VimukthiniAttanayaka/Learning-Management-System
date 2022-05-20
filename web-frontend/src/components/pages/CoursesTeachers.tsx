@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Image, Button } from 'react-bootstrap';
-import { Edit, Trash2 } from 'react-feather';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import background from "../../assets/images/profilebackground.jpg";
 import { IAssignTask } from '../types/LMSTypes';
 import LeftNavbar from '../navbars/LeftNavbar';
@@ -82,10 +82,10 @@ const CoursesTeachers = () => {
                             <h5 className='item-center colour-green'>{assignTasks.dueDate}</h5>
                         </Col>
                         <Col xs={2}>
-                            <h5 className='item-center colour-green'><Edit className="text-warning" /></h5>
+                            <h5 className='item-center colour-green'><FaEdit className="text-warning" /></h5>
                         </Col>
                         <Col xs={2}>
-                            <h5 className='item-center colour-green'><Trash2 className='text-danger' /></h5>
+                            <h5 className='item-center colour-green'><FaTrash className='text-danger' /></h5>
                         </Col>
                     </Row>
                 ))}

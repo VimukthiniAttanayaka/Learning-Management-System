@@ -5,18 +5,12 @@ import logo from "../../assets/images/logo.png";
 import Swal from "sweetalert2";
 import Select from "react-select";
 import { DropDown } from '../types/LMSTypes';
-import store, { selectCount } from '../../redux/configureStore';
-import { useDispatch, useSelector } from 'react-redux';
-import { addEmail, isUserLogged } from '../../redux/user';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Register = () => {
 
     const navigate = useNavigate();
-
-    const count = useSelector(selectCount);
-    const dispatch = useDispatch();
 
     const [validated, setValidated] = useState(false);
     const [firstName, setFirstName] = useState<string>("");
@@ -96,8 +90,6 @@ const Register = () => {
                     confirmButtonText: "Ok",
                 }).then((result: any) => {
                     if (result.isConfirmed) {
-                        dispatch(addEmail(email));
-                        dispatch(isUserLogged(true));
                         navigate('/home');
                         //console.log(id);
                     }
