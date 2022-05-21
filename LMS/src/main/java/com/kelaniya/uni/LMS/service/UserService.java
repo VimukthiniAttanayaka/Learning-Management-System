@@ -94,7 +94,7 @@ public class UserService {
         String userName = user.getUserName();
         int resetCode = createResetCode();
         //email function
-        String to = resetUserName;
+        String to = userName;
         String subject = "Learning Management System";
         String body = "Your password reset code is: " + resetCode;
         EmailRequest emailRequest = new EmailRequest(to, subject, body);

@@ -28,8 +28,8 @@ public class UserCourseController {
         userCourseService.enrollToCourse(userCourse);
     }
 
-    @PostMapping({"/getSubjectsWithUserName"})
-    public List<String> getSubjectsWithUserName(@RequestBody UserCourse userCourse){
+    @PostMapping({"/getUserNamesWithSubject"})
+    public List<String> getUserNamesWithSubject(@RequestBody UserCourse userCourse){
         return userCourseService.getSubjects(userCourse);
     }
 

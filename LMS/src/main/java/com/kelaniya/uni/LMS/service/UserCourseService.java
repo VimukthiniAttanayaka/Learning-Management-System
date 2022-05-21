@@ -30,7 +30,7 @@ public class UserCourseService {
     }
 
     public List<String> getSubjects(UserCourse userCourse){
-        return userCourseDao.getSubjects(userCourse.getUserEmail());
+        return userCourseDao.getSubjects(userCourse.getCourseId());
     }
 
 }
