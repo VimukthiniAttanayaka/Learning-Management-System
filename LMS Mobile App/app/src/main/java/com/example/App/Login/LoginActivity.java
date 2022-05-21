@@ -18,6 +18,7 @@ import com.example.App.R;
 public class LoginActivity extends AppCompatActivity {
 
     private Button LoginBtn1;
+    private Button registerBtn;
 
 
     @Override
@@ -35,6 +36,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(LoginActivity.this,"Successfully login!",Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+
+
+
+        });
+
+        registerBtn = findViewById(R.id.registerBtn);
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
