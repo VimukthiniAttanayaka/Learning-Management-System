@@ -3,6 +3,8 @@ package com.kelaniya.uni.LMS.service;
 import com.kelaniya.uni.LMS.dao.UserCourseDao;
 import com.kelaniya.uni.LMS.entity.UserCourse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,11 @@ public class UserCourseService {
         userCourseDao.addMarks(userCourse.getUserEmail(), userCourse.getCourseId(), userCourse.getMarks());
     }
 
-    public List<UserCourse> viewMarksWithUserName(UserCourse userCourse){
-        return userCourseDao.getMarks(userCourse.getUserEmail());
+    public List<UserCourse> viewMarksWithUserName(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String userName = userDetails.getUsername();
+        return userCourseDao.getMarks(userName);
     }
 
 }

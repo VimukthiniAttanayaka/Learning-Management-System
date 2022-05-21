@@ -11,12 +11,10 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="jwt" target="1.8" />
-      <module name="Learning-Management-System" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Learning-Management-System" options="-parameters" />
       <module name="jwt" options="-parameters" />
     </option>
   </component>
