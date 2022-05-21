@@ -9,11 +9,14 @@ import com.kelaniya.uni.LMS.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -78,7 +81,7 @@ public class UserService {
 //        userDao.save(user);
     }
 
-    public ResponseEntity registerNewUser(User user) {
+    public Integer registerNewUser(User user) {
         Role role = roleDao.findById(user.getRoleName()).get();
         Set<Role> userRoles = new HashSet<>();
         userRoles.add(role);
@@ -87,10 +90,10 @@ public class UserService {
 
         try{
             String registeringUser = userDao.findById(user.getUserName()).get().getUserName();
-            return new ResponseEntity(HttpStatus.MULTI_STATUS);
+            return 207;
         }catch (Exception e){
             userDao.save(user);
-            return new ResponseEntity(HttpStatus.OK);
+            return createResetCode();
         }
 
     }
@@ -127,6 +130,13 @@ public class UserService {
         int max = 10000;
 
         return (int)Math.floor(Math.random()*(max-min+1)+min);
+    }
+
+    public Optional<User> getUserDetails(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String userName = userDetails.getUsername();
+        return userDao.findById(userName);
     }
 
 }

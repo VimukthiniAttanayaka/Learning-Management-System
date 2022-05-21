@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping({"/registerNewUser"})
-    public ResponseEntity registerNewUser(@RequestBody User user) {
+    public Integer registerNewUser(@RequestBody User user) {
         return userService.registerNewUser(user);
     }
 
@@ -39,6 +40,11 @@ public class UserController {
         }catch (Exception e){
             throw new Exception("Couldn't update password");
         }
+    }
+
+    @GetMapping({"/getUserDetails"})
+    public Optional<User> getUserDetails(){
+        return userService.getUserDetails();
     }
 
     @GetMapping({"/forAdmin"})
