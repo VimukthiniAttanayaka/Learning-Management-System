@@ -29,13 +29,13 @@ public class UserCourseController {
     }
 
     @PostMapping({"/getUserNamesWithSubject"})
-    public List<String> getUserNamesWithSubject(@RequestBody UserCourse userCourse){
-        return userCourseService.getSubjects(userCourse);
+    public List<UserCourse> getUserNamesWithSubject(@RequestBody UserCourse userCourse){
+        return userCourseService.getSubjects(userCourse.getCourseId());
     }
 
     @PostMapping({"/addMarksToCourse"})
     @PreAuthorize("hasRole('Teacher')")
-    public void addMarksToCourse(@RequestBody UserCourse userCourse){
+    public void addMarksToCourse(@RequestBody List<UserCourse> userCourse){
         userCourseService.addMarksForSuitableCourse(userCourse);
     }
 

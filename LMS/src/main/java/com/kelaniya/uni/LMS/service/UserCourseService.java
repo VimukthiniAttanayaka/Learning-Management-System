@@ -18,8 +18,10 @@ public class UserCourseService {
         userCourseDao.save(userCourse);
     }
 
-    public void addMarksForSuitableCourse(UserCourse userCourse){
-        userCourseDao.addMarks(userCourse.getUserEmail(), userCourse.getCourseId(), userCourse.getMarks());
+    public void addMarksForSuitableCourse(List<UserCourse> userCourse){
+        for(UserCourse user : userCourse){
+            userCourseDao.addMarks(user.getUserEmail(), user.getCourseId(), user.getMarks());
+        }
     }
 
     public List<UserCourse> viewMarksWithUserName(){
@@ -29,8 +31,8 @@ public class UserCourseService {
         return userCourseDao.getMarks(userName);
     }
 
-    public List<String> getSubjects(UserCourse userCourse){
-        return userCourseDao.getSubjects(userCourse.getCourseId());
+    public List<UserCourse> getSubjects(String courseId){
+        return userCourseDao.getSubjects(courseId);
     }
 
 }

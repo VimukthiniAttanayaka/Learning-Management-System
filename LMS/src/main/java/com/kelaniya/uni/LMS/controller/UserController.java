@@ -1,6 +1,8 @@
 package com.kelaniya.uni.LMS.controller;
 
+import com.kelaniya.uni.LMS.entity.Notification;
 import com.kelaniya.uni.LMS.entity.User;
+import com.kelaniya.uni.LMS.service.EmailService;
 import com.kelaniya.uni.LMS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
 
     @PostConstruct
     public void initRoleAndUser() {
@@ -63,4 +64,5 @@ public class UserController {
     public String forUser(){
         return "This URL is only accessible to the user";
     }
+
 }
