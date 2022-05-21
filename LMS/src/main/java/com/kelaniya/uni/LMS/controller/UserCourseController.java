@@ -28,6 +28,11 @@ public class UserCourseController {
         userCourseService.enrollToCourse(userCourse);
     }
 
+    @PostMapping({"/getSubjectsWithUserName"})
+    public List<String> getSubjectsWithUserName(@RequestBody UserCourse userCourse){
+        return userCourseService.getSubjects(userCourse);
+    }
+
     @PostMapping({"/addMarksToCourse"})
     @PreAuthorize("hasRole('Teacher')")
     public void addMarksToCourse(@RequestBody UserCourse userCourse){

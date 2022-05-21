@@ -19,4 +19,6 @@ public interface UserCourseDao extends CrudRepository<UserCourse, MyKey> {
     @Query(value = "SELECT * FROM jwt_demo.user_course WHERE user_email = :userEmail", nativeQuery = true)
     List<UserCourse> getMarks(String userEmail);
 
+    @Query(value = "SELECT course_id FROM jwt_demo.user_course WHERE user_email = :userEmail", nativeQuery = true)
+    List<String> getSubjects(String userEmail);
 }

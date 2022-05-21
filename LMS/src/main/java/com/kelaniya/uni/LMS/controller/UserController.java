@@ -23,8 +23,13 @@ public class UserController {
         userService.initRoleAndUser();
     }
 
+    @PostMapping({"/getRegisterCode"})
+    public Integer getRegisterCode(@RequestBody User user){
+        return userService.getRegisterCode(user);
+    }
+
     @PostMapping({"/registerNewUser"})
-    public Integer registerNewUser(@RequestBody User user) {
+    public ResponseEntity<String> registerNewUser(@RequestBody User user) {
         return userService.registerNewUser(user);
     }
 

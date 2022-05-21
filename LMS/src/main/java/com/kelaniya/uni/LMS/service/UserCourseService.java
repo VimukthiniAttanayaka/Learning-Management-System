@@ -29,4 +29,8 @@ public class UserCourseService {
         return userCourseDao.getMarks(userName);
     }
 
+    public List<String> getSubjects(UserCourse userCourse){
+        return userCourseDao.getSubjects(userCourse.getUserEmail());
+    }
+
 }

@@ -1,11 +1,14 @@
 package com.kelaniya.uni.LMS.service;
 
+import com.kelaniya.uni.LMS.controller.EmailController;
 import com.kelaniya.uni.LMS.dao.CourseDao;
 import com.kelaniya.uni.LMS.entity.Course;
+import com.kelaniya.uni.LMS.entity.EmailRequest;
 import com.kelaniya.uni.LMS.entity.Role;
 import com.kelaniya.uni.LMS.entity.User;
 import com.kelaniya.uni.LMS.dao.RoleDao;
 import com.kelaniya.uni.LMS.dao.UserDao;
+import com.sendgrid.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +36,12 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private EmailController emailController;
 
     public String resetUserName;
 
@@ -81,7 +90,24 @@ public class UserService {
 //        userDao.save(user);
     }
 
-    public Integer registerNewUser(User user) {
+    public Integer getRegisterCode(User user){
+        String userName = user.getUserName();
+        int resetCode = createResetCode();
+        //email function
+        String to = resetUserName;
+        String subject = "Learning Management System";
+        String body = "Your password reset code is: " + resetCode;
+        EmailRequest emailRequest = new EmailRequest(to, subject, body);
+
+        Thread newThread = new Thread(() -> {
+            emailController.sendEmail(emailRequest);
+        });
+        newThread.start();
+
+        return resetCode;
+    }
+
+    public ResponseEntity<String> registerNewUser(User user) {
         Role role = roleDao.findById(user.getRoleName()).get();
         Set<Role> userRoles = new HashSet<>();
         userRoles.add(role);
@@ -89,13 +115,12 @@ public class UserService {
         user.setUserPassword(getEncodedPassword(user.getUserPassword()));
 
         try{
-            String registeringUser = userDao.findById(user.getUserName()).get().getUserName();
-            return 207;
+            userDao.findById(user.getUserName()).get().getUserName();
+            return new ResponseEntity<>("Failed to Register",HttpStatus.MULTI_STATUS);
         }catch (Exception e){
             userDao.save(user);
-            return createResetCode();
         }
-
+        return new ResponseEntity<>("Successfully registered",HttpStatus.OK);
     }
 
     public Integer sendResetCode(String userName){
@@ -106,7 +131,15 @@ public class UserService {
             int resetCode = createResetCode();
 
             // email sending function
+            String to = resetUserName;
+            String subject = "Learning Management System";
+            String body = "Your password reset code is: " + resetCode;
+            EmailRequest emailRequest = new EmailRequest(to, subject, body);
 
+            Thread newThread = new Thread(() -> {
+                emailController.sendEmail(emailRequest);
+            });
+            newThread.start();
 
             return resetCode;
 
