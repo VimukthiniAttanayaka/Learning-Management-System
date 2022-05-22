@@ -36,4 +36,5 @@ public class Course {
     public void setDegreeProgramme(String degreeProgramme) {
         this.degreeProgramme = degreeProgramme;
     }
+
 }
