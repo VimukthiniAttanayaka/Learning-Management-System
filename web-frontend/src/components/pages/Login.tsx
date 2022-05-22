@@ -33,8 +33,8 @@ const Login = () => {
 
         axios.post('http://localhost:8080/authenticate', data).then(res => {
 
-            //localStorage.setItem('role', res.data.user.role[0].roleName)
-            localStorage.setItem('role', 'Student')
+            localStorage.setItem('role', res.data.user.role[0].roleName)
+            //localStorage.setItem('role', 'Student')
             localStorage.setItem('token', res.data.jwtToken)
             localStorage.setItem('email', email)
 
@@ -69,18 +69,6 @@ const Login = () => {
             }
 
         })
-        /*
-        const response = await fetch(.", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        console.log(response)
-
-        */
     }
 
     const handleSubmit = (event: any) => {

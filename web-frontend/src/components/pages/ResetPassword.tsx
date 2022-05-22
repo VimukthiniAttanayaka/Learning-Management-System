@@ -87,7 +87,6 @@ const ResetPassword = () => {
             body: JSON.stringify(data)
         });
         if (response.status === 200) {
-            //console.log(response);
             Swal.fire({
                 title: "Successfully reset your password",
                 text: "",

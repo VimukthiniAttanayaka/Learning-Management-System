@@ -67,10 +67,6 @@ const Register = () => {
             userName: email,
         }
         axios.post('http://localhost:8080/getRegisterCode', data).then(res => {
-            console.log(res)
-
-            // localStorage.setItem('role', userType)
-            // localStorage.setItem('email', email)
 
             if (res.status === 200) {
                 console.log(res);
@@ -129,7 +125,6 @@ const Register = () => {
             console.log(res)
 
             localStorage.setItem('role', userType)
-            // localStorage.setItem('token', res.data.jwtToken)
             localStorage.setItem('email', email)
             if (res.status === 200) {
                 console.log(res);
@@ -143,7 +138,7 @@ const Register = () => {
                     confirmButtonText: "Ok",
                 }).then((result: any) => {
                     if (result.isConfirmed) {
-                        navigate('/home');
+                        navigate('/');
                         //console.log(id);
                     }
                 });
@@ -212,7 +207,23 @@ const Register = () => {
         if (!code) {
             setError("Enter code we send your email");
         } else {
-            passData();
+            if(code == getCode){
+                passData();
+            } else {
+                Swal.fire({
+                    title: "Something goes wrong. Please try again.",
+                    text: "",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        //console.log(id);
+                    }
+                });
+            }
             setValidated(false);
         }
     }

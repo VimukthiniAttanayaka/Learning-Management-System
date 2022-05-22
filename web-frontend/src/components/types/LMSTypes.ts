@@ -35,9 +35,11 @@ export interface DropDown {
 }
 
 export interface IMarkAdd {
-    name: string;
-    email: string;
-    mark: string | null;
+    userEmail: string,
+    courseId: string,
+    marks: string,
+    courseName: string,
+    semester: string
 }
 
 export interface IUser {
