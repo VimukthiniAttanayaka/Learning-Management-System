@@ -7,7 +7,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @Column(length = 10)
+    @Column(length = 100)
     private String userName;
     private String userFirstName;
     private String userLastName;

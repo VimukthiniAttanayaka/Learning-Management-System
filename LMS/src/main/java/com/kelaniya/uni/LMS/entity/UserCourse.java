@@ -8,7 +8,7 @@ import javax.persistence.*;
 @IdClass(MyKey.class)
 public class UserCourse {
     @Id
-    @Column(length = 10)
+    @Column(length = 100)
     private String userEmail;
 
     @Id
