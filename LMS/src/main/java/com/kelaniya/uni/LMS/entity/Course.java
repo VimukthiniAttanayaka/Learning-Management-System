@@ -12,6 +12,7 @@ public class Course {
     private String courseCode;
     private String courseName;
     private String degreeProgramme;
+    private String semester;
 
     public String getCourseCode() {
         return courseCode;
@@ -37,4 +38,11 @@ public class Course {
         this.degreeProgramme = degreeProgramme;
     }
 
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
 }
