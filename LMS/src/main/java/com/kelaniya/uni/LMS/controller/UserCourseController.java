@@ -29,6 +29,7 @@ public class UserCourseController {
     }
 
     @PostMapping({"/getUserNamesWithSubject"})
+    @PreAuthorize("hasRole('Teacher')")
     public List<UserCourse> getUserNamesWithSubject(@RequestBody UserCourse userCourse){
         return userCourseService.getSubjects(userCourse.getCourseId());
     }

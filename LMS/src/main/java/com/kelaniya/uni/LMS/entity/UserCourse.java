@@ -15,7 +15,7 @@ public class UserCourse {
     @Column(length = 10)
     private String courseId;
 
-    private int marks;
+    private String marks;
     private String courseName;
     private String semester;
 
@@ -35,11 +35,11 @@ public class UserCourse {
         this.courseId = courseId;
     }
 
-    public int getMarks() {
+    public String getMarks() {
         return marks;
     }
 
-    public void setMarks(int marks) {
+    public void setMarks(String marks) {
         this.marks = marks;
     }
 
