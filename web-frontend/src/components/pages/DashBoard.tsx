@@ -26,31 +26,74 @@ const DashBoard = () => {
 
     const auth = localStorage.getItem('token');
 
-    async function requestdata() {
+    async function requestdata1() {
         const config = {
             headers: { Authorization: `Bearer ${auth}` }
         };
-        axios.get('http://localhost:8080/available_courses', config).then(res => {
+        let data = {
+            degreeProgramme:"Bio Science"
+        };
 
+        axios.post('http://localhost:8080/getAllCoursesForSelectedDegreeProgramme', data, config).then(res => {
             setScience(res.data);
+            setMedicine(res.data)
             setCommerce(res.data);
+        })
+    }
+    async function requestdata2() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        let data = {
+            degreeProgramme:"Humanities"
+        };
+
+        axios.post('http://localhost:8080/getAllCoursesForSelectedDegreeProgramme', data, config).then(res => {
             setHumanities(res.data);
             setSocialScience(res.data);
-            setMedicine(res.data);
+
+        })
+    }
+    async function requestdata3() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        let data = {
+            degreeProgramme:"Mathematics"
+        };
+
+        axios.post('http://localhost:8080/getAllCoursesForSelectedDegreeProgramme', data, config).then(res => {
+            setHumanities(res.data);
+        })
+    }
+    async function requestdata4() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        let data = {
+            degreeProgramme:"Software Engineering"
+        };
+
+        axios.post('http://localhost:8080/getAllCoursesForSelectedDegreeProgramme', data, config).then(res => {
             setComputing(res.data);
 
         })
     }
     useEffect(() => {
-        requestdata();
+        requestdata1();
+        requestdata2();
+        requestdata3();
+        requestdata4();
     }, [auth]);
 
-    async function enrollCourse(id: string) {
+    async function enrollCourse(id: string, name:string) {
         const config = {
             headers: { Authorization: `Bearer ${auth}` }
         };
         let data = {
-            courseId: id
+            courseId: id,
+            courseName: name,
+            semester: "semester 1"
         };
         axios.post('http://localhost:8080/enrollToCourse', data, config).then(res => {
             if (res.status === 200) {
@@ -84,36 +127,6 @@ const DashBoard = () => {
 
         })
     }
-    // const science: IAllCourse[] = [
-    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    // ];
-    // const commerce: IAllCourse[] = [
-    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    // ];
-    // const humanities: IAllCourse[] = [
-    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    // ];
-    // const socialScience: IAllCourse[] = [
-    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    // ];
-    // const medicine: IAllCourse[] = [
-    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    // ];
-    // const computing: IAllCourse[] = [
-    //     { id: 4, name: 'EE114 - Effective English Usage', semester: "2" },
-    //     { id: 5, name: 'EE115 - Effective English Usage', semester: "4" },
-    //     { id: 7, name: 'EE115 - Effective English Usage', semester: "3" },
-    // ];
 
     const enrollRequest = (id: string, name: string) => {
         Swal.fire({
@@ -126,7 +139,7 @@ const DashBoard = () => {
             confirmButtonText: "Yes, Enroll it!",
         }).then((result: any) => {
             if (result.isConfirmed) {
-                enrollCourse(id);
+                enrollCourse(id,name);
             }
         });
     }

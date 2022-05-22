@@ -36,14 +36,7 @@ const TutorialMarks = () => {
         }
     }
 
-    const coursesList: IMyCourse[] = [
-        // { name: 'EE111 - Effective', semester: 'semester 1' },
-        // { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
-        // { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
-        // { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
-        // { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-        // { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-    ];
+    const coursesList: IMyCourse[] = [];
 
     const user = localStorage.getItem('role');
     var courseLink: any;

@@ -89,13 +89,18 @@ const CoursesTeachers = () => {
         { name: 'tutorial1', assignDate: '2022/04/05', dueDate: '2022/04/30' },
     ];
 
+    const courseId = localStorage.getItem('courseId');
+
     const [addMarks, setAddMarks] = useState<IMarkAdd[]>([]);
 
     async function marksAdd() {
         const config = {
             headers: { Authorization: `Bearer ${auth}` }
         };
-        axios.get('http://localhost:8080/viewMarks', config).then(res => {
+        let data = {
+            courseId: courseId,
+        }
+        axios.post('http://localhost:8080/getUserNamesWithSubject',data, config).then(res => {
             console.log(res.data);
             setAddMarks(res.data);
         })
@@ -103,12 +108,6 @@ const CoursesTeachers = () => {
     useEffect(() => {
         marksAdd();
     }, [auth]);
-    // const addMarks: IMarkAdd[] = [
-    //     { name: 'tutorial1', email: '2022/04/05', mark: '34' },
-    //     { name: 'tutorial1', email: '2022/04/05', mark: '' },
-    //     { name: 'tutorial1', email: '2022/04/05', mark: '' },
-    //     { name: 'tutorial1', email: '2022/04/05', mark: '' },
-    // ];
 
     const [annousmentShow, setAnnousmentShow] = useState(false);
     const handleAnnousmentClose = () => setAnnousmentShow(false);
@@ -127,11 +126,10 @@ const CoursesTeachers = () => {
     };
 
     const handleOnMarkAddChanged = (name: string, id: number) => {
-        addMarks[id].mark = name;
+        addMarks[id].marks = name;
     };
 
     const handleSubmitMarks = (event: any) => {
-        console.log(addMarks)
         event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -139,26 +137,26 @@ const CoursesTeachers = () => {
             event.stopPropagation();
         }
         setValidated(true);
-        if (!emailHeader) {
-            setError("Email Header can not be empty");
-        }
-        if (!emailBody) {
-            setError("Email Body can not be empty");
-        }
-        else {
+        // if (!emailHeader) {
+        //     setError("Email Header can not be empty");
+        // }
+        // if (!emailBody) {
+        //     setError("Email Body can not be empty");
+        // }
+        // else {
             requestdata();
             setValidated(false);
             setAnnousmentShow(false);
-        }
+        // }
     }
 
     async function requestdata() {
-        let data = {
-            userName: emailHeader,
-            userPassword: emailBody
-        }
-
-        axios.post('http://localhost:8080/authenticate', data).then(res => {
+        console.log(addMarks)
+        let data = addMarks;
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.post('http://localhost:8080/addMarksToCourse', data, config).then(res => {
 
             if (res.status === 200) {
                 Swal.fire({
@@ -171,6 +169,7 @@ const CoursesTeachers = () => {
                     confirmButtonText: "Ok",
                 }).then((result: any) => {
                     if (result.isConfirmed) {
+                        setShow(false)
                     }
                 });
             } else {
@@ -184,7 +183,7 @@ const CoursesTeachers = () => {
                     confirmButtonText: "Ok",
                 }).then((result: any) => {
                     if (result.isConfirmed) {
-                        //console.log(id);
+                        
                     }
                 });
             }
@@ -192,7 +191,6 @@ const CoursesTeachers = () => {
         })
     }
 
-    const courseId = localStorage.getItem('courseId');
     async function sendEmails() {
         let data = {
             courseId: courseId,
@@ -332,27 +330,27 @@ const CoursesTeachers = () => {
                             <Button className='new-task' onClick={handleAnnousmentShow} >New Annousment</Button>
                             <Button className='new-task float-right background-green me-5 pe-5' onClick={handleShow}>Course Final Marks</Button>
                         </Col>
-                        <Col xs={12} className='ps-5'>
+                        <Col xs={12} className='ps-5 mb-5'>
                             <Row>
                                 <Col xs={12} className='pb-2 colour-brown'>
                                     <h5>Student List</h5>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs={3}>
+                                <Col xs={6}>
                                     <h5 className='pb-3 colour-brown'>Name</h5>
                                 </Col>
-                                <Col xs={9}>
+                                <Col xs={6}>
                                     <h5 className='pb-3 colour-brown'>Grade</h5>
                                 </Col>
                             </Row>
                             {addMarks.map((assignMarks: IMarkAdd, index: number) => (
                                 <Row assignMarks={assignMarks} index={index} key={index}>
-                                    <Col xs={3}>
-                                        <h5 className='colour-green'>{assignMarks.email}</h5>
+                                    <Col xs={6}>
+                                        <h5 className='colour-green'>{assignMarks.userEmail}</h5>
                                     </Col>
-                                    <Col xs={9}>
-                                        <h5 className='colour-green'>{assignMarks.mark}</h5>
+                                    <Col xs={6}>
+                                        <h5 className='colour-green'>{assignMarks.marks}</h5>
                                     </Col>
                                 </Row>
                             ))}
@@ -414,10 +412,10 @@ const CoursesTeachers = () => {
                             <Row assignMarks={assignMarks} index={index} key={index} className='mb-2'>
                                 <Col xs={1}></Col>
                                 <Col xs={7}>
-                                    <h5 className='colour-green'>{assignMarks.name}</h5>
+                                    <h5 className='colour-green'>{assignMarks.userEmail}</h5>
                                 </Col>
                                 <Col xs={4}>
-                                    <Form.Control type="number" placeholder="Enter Mark" required
+                                    <Form.Control type="number" placeholder="Enter Mark" required value={assignMarks.marks}
                                         onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
                                             handleOnMarkAddChanged(ev.target.value, index)
                                         } />

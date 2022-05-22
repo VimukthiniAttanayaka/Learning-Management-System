@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Image } from 'react-bootstrap';
 import background from "../../assets/images/profilebackground.jpg";
-import { ICourseMarks } from '../types/LMSTypes';
 import LeftNavbar from '../navbars/LeftNavbar';
 import TopNavbar from '../navbars/TopNavbar';
 import Calendar from 'react-calendar';
@@ -31,14 +30,6 @@ const CoursesMarks = () => {
     useEffect(() => {
         requestdata();
     }, [auth]);
-
-    // const courses: ICourseMarks[] = [
-    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-    // ];
 
     const [value, onChange] = useState(new Date());
     const [calendarShow, setCalendarShow] = useState(false);
