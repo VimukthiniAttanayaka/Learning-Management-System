@@ -1,6 +1,9 @@
 export interface IMyCourse {
-    name: string;
-    semester: string;
+    courseId: string
+    courseName: string
+    marks: number
+    semester: string
+    userEmail: string
 }
 export interface IAllCourse {
     courseCode: string;
@@ -35,4 +38,16 @@ export interface IMarkAdd {
     name: string;
     email: string;
     mark: string | null;
+}
+
+export interface IUser {
+    degreeProgramme: string;
+    homeAddress: string;
+    phone: string;
+    role: string;
+    roleName: string;
+    userFirstName: string;
+    userLastName: string;
+    userName: string;
+    userPassword: string;
 }

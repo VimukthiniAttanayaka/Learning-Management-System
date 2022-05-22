@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Image, Button } from 'react-bootstrap';
 import background from "../../assets/images/profilebackground.jpg";
 import avata from "../../assets/images/profileAvata.jpg";
@@ -8,8 +8,9 @@ import TopNavbar from '../navbars/TopNavbar';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import cources from '../../assets/images/cources-black.svg';
-import { IMyCourse } from '../types/LMSTypes';
+import { IMyCourse, IUser } from '../types/LMSTypes';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Profile = () => {
 
@@ -37,14 +38,22 @@ const Profile = () => {
         }
     }
 
-    const coursesList: IMyCourse[] = [
-        { name: 'EE111 - Effective', semester: 'semester 1' },
-        { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-    ];
+    const auth = localStorage.getItem('token');
+
+    const [courses, setCourses] = useState<IMyCourse[]>([]);
+
+    async function requestCoursedata() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.get('http://localhost:8080/viewMarks', config).then(res => {
+            console.log(res.data);
+            setCourses(res.data);
+        })
+    }
+    useEffect(() => {
+        requestCoursedata();
+    }, [auth]);
 
     const user = localStorage.getItem('role');
     var courseLink: any;
@@ -55,16 +64,32 @@ const Profile = () => {
         navigate(courseLink);
     }
 
+    const [userDetails, setUser] = useState<IUser>();
+
+    async function requestdata() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.get('http://localhost:8080/getUserDetails', config).then(res => {
+            const newUser:IUser = {degreeProgramme: res.data.degreeProgramme ,homeAddress: res.data.homeAddress,phone: res.data.phone,role: res.data.role[0].roleName, roleName: res.data.roleName,userFirstName: res.data.userFirstName,userLastName: res.data.userLastName,userName: res.data.userName,userPassword: res.data.userPassword}
+            console.log(newUser);
+            setUser(newUser);
+        })
+    }
+    useEffect(() => {
+        requestdata();
+    }, [auth]);
+
     const MyCourseList = () => {
         return (
             <Row className='width-100'>
-                {coursesList.map((course: IMyCourse, index: number) => (
+                {courses.map((course: IMyCourse, index: number) => (
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row onClick={() => courseNavigate(course.name)}>
+                        <Row onClick={() => courseNavigate(course.courseId)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
-                            <h6>{course.name}</h6>
+                            <h6>{course.courseName}</h6>
                         </Row>
                     </Col>
                 ))}
@@ -91,19 +116,19 @@ const Profile = () => {
                             <Row>
                                 <Col sm={8} className='profile-details'>
                                     <p>Degree Program - </p>
-                                    <h4>software Engineering</h4>
+                                    <h4>{userDetails?.degreeProgramme}</h4>
                                     <p>Student No - </p>
                                     <h4>SE-2018-006</h4>
                                     <p>Student Name - </p>
-                                    <h4>A.M.V.N.Attanayaka</h4>
+                                    <h4>{userDetails?.userFirstName} {userDetails?.userLastName}</h4>
                                     <p>Email Address - </p>
-                                    <h4>vimukthinia@gmail.com</h4>
+                                    <h4>{userDetails?.userName}</h4>
                                     <p>Registated Date - </p>
                                     <h4>2022-04-22</h4>
                                     <p>mobile - </p>
-                                    <h4 className='pe-5'>0755975740 <FiEdit className='text-warning edit' /></h4>
+                                    <h4 className='pe-5'>{userDetails?.phone}<FiEdit className='text-warning edit' /></h4>
                                     <p>Address - </p>
-                                    <h4 className='pe-5'>No.152, Godhamunna, Thalatuoya <FiEdit className='text-warning edit' /></h4>
+                                    <h4 className='pe-5'>{userDetails?.homeAddress} <FiEdit className='text-warning edit' /></h4>
                                 </Col>
                                 <Col sm={4}>
                                     <Row>

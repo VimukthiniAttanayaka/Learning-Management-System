@@ -31,7 +31,7 @@ const DashBoard = () => {
             headers: { Authorization: `Bearer ${auth}` }
         };
         axios.get('http://localhost:8080/available_courses', config).then(res => {
-            console.log(res.data);
+
             setScience(res.data);
             setCommerce(res.data);
             setHumanities(res.data);
@@ -256,14 +256,20 @@ const DashBoard = () => {
         }
     }
 
-    const coursesList: IMyCourse[] = [
-        { name: 'EE111 - Effective', semester: 'semester 1' },
-        { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-    ];
+    const [courses, setCourses] = useState<IMyCourse[]>([]);
+
+    async function requestCoursedata() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.get('http://localhost:8080/viewMarks', config).then(res => {
+            console.log(res.data);
+            setCourses(res.data);
+        })
+    }
+    useEffect(() => {
+        requestCoursedata();
+    }, [auth]);
 
     const user = localStorage.getItem('role');
     var courseLink: any;
@@ -277,13 +283,13 @@ const DashBoard = () => {
     const MyCourseList = () => {
         return (
             <Row className='width-100'>
-                {coursesList.map((course: IMyCourse, index: number) => (
+                {courses.map((course: IMyCourse, index: number) => (
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row onClick={() => courseNavigate(course.name)}>
+                        <Row onClick={() => courseNavigate(course.courseId)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
-                            <h6>{course.name}</h6>
+                            <h6>{course.courseName}</h6>
                         </Row>
                     </Col>
                 ))}

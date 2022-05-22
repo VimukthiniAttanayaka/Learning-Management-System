@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Image } from 'react-bootstrap';
 import background from "../../../assets/images/homebackground2.jpg";
 import { IMyCourse } from '../../types/LMSTypes';
@@ -9,6 +9,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import cources from '../../../assets/images/cources-black.svg';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Home = () => {
 
@@ -52,9 +53,9 @@ const Home = () => {
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row onClick={() => courseNavigate(course.name)}>
+                        <Row onClick={() => courseNavigate(course.courseId)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
-                            <h6>{course.name}</h6>
+                            <h6>{course.courseName}</h6>
                         </Row>
                     </Col>
                 ))}
@@ -62,14 +63,31 @@ const Home = () => {
         )
     }
 
-    const courses: IMyCourse[] = [
-        { name: 'EE111 - Effective', semester: 'semester 1' },
-        { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-    ];
+    const auth = localStorage.getItem('token');
+
+    const [courses, setCourses] = useState<IMyCourse[]>([]);
+
+    async function requestdata() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.get('http://localhost:8080/viewMarks', config).then(res => {
+            console.log(res.data);
+            setCourses(res.data);
+        })
+    }
+    useEffect(() => {
+        requestdata();
+    }, [auth]);
+
+    // const courses: IMyCourse[] = [
+    //     { name: 'EE111 - Effective', semester: 'semester 1' },
+    //     { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
+    //     { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
+    //     { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
+    //     { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
+    //     { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
+    // ];
 
     const CourseShow = () => {
         return (

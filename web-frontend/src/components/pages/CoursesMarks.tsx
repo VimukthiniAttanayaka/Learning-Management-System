@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Image } from 'react-bootstrap';
 import background from "../../assets/images/profilebackground.jpg";
 import { ICourseMarks } from '../types/LMSTypes';
@@ -9,18 +9,36 @@ import 'react-calendar/dist/Calendar.css';
 import cources from '../../assets/images/cources-black.svg';
 import { IMyCourse } from '../types/LMSTypes';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CoursesMarks = () => {
 
     const navigate = useNavigate();
 
-    const courses: ICourseMarks[] = [
-        { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-        { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-        { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-        { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-        { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
-    ];
+    const auth = localStorage.getItem('token');
+
+    const [courses, setCourses] = useState<IMyCourse[]>([]);
+
+    async function requestdata() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.get('http://localhost:8080/viewMarks', config).then(res => {
+            console.log(res.data);
+            setCourses(res.data);
+        })
+    }
+    useEffect(() => {
+        requestdata();
+    }, [auth]);
+
+    // const courses: ICourseMarks[] = [
+    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
+    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
+    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
+    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
+    //     { name: 'tutorial1', semester: 'semester1', grade: 'A', gpa: '2.00' },
+    // ];
 
     const [value, onChange] = useState(new Date());
     const [calendarShow, setCalendarShow] = useState(false);
@@ -44,14 +62,6 @@ const CoursesMarks = () => {
         }
     }
 
-    const coursesList: IMyCourse[] = [
-        { name: 'EE111 - Effective', semester: 'semester 1' },
-        { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-    ];
 
     const user = localStorage.getItem('role');
     var courseLink: any;
@@ -65,13 +75,13 @@ const CoursesMarks = () => {
     const MyCourseList = () => {
         return (
             <Row className='width-100'>
-                {coursesList.map((course: IMyCourse, index: number) => (
+                {courses.map((course: IMyCourse, index: number) => (
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row onClick={() => courseNavigate(course.name)}>
+                        <Row onClick={() => courseNavigate(course.courseId)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
-                            <h6>{course.name}</h6>
+                            <h6>{course.courseName}</h6>
                         </Row>
                     </Col>
                 ))}
@@ -81,19 +91,19 @@ const CoursesMarks = () => {
     const CourseShow = () => {
         return (
             <>
-                {courses.map((marks: ICourseMarks, index: number) => (
+                {courses.map((marks: IMyCourse, index: number) => (
                     <Row marks={marks} index={index} key={index}>
                         <Col xs={3}>
-                            <h4 className='colour-green'>{marks.name}</h4>
+                            <h4 className='colour-green'>{marks.courseName}</h4>
                         </Col>
                         <Col xs={3}>
                             <h4 className='item-center colour-green'>{marks.semester}</h4>
                         </Col>
                         <Col xs={3}>
-                            <h4 className='item-center colour-green'>{marks.grade}</h4>
+                            <h4 className='item-center colour-green'>2.0</h4>
                         </Col>
                         <Col xs={3}>
-                            <h4 className='item-center colour-green'>{marks.gpa}</h4>
+                            <h4 className='item-center colour-green'>{marks.marks}</h4>
                         </Col>
                     </Row>
                 ))}

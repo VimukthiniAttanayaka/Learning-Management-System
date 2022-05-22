@@ -3,14 +3,20 @@ import { Row, Col, Image, Form, Button } from 'react-bootstrap';
 import background from "../../assets/images/loginbackground.jpg";
 import logo from "../../assets/images/logo.png";
 import Swal from "sweetalert2";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ResetPassword = () => {
+
+    const navigate = useNavigate();
+
     const [validated, setValidated] = useState(false);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [rePassword, setRePassword] = useState<string>("");
     const [code, setCode] = useState<string>("");
     const [error, setError] = useState<string>("");
+    const [getCode, setGetCode] = useState<string>("");
 
     const handleOnEmailChanged = (name: string) => {
         setEmail(name);
@@ -29,39 +35,41 @@ const ResetPassword = () => {
     async function requestdataEmail() {
 
         let data = {
-            email: email
+            userName: email
         }
-        const response = await fetch("http://localhost:8080/log_in", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (response.status === 200) {
-            //console.log(response);
+        axios.post('http://localhost:8080/getResetCode', data).then(res => {
+            console.log(res)
+        if (res.status === 200) {
+            setGetCode(res.data);
+            Swal.fire({
+                title: "Enter code we send your email",
+                text: "",
+                icon: "success",
+                showCancelButton: false,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "white",
+                confirmButtonText: "Ok",
+            }).then((result: any) => {
+                if (result.isConfirmed) {
+                    //console.log(id);
+                }
+            });
         } else {
+            Swal.fire({
+                title: "Something goes wrong. Please try again.",
+                text: "",
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "white",
+                confirmButtonText: "Ok",
+            }).then((result: any) => {
+                if (result.isConfirmed) {
+                    //console.log(id);
+                }
+            });
         }
-    }
-
-    async function requestdataData() {
-
-        let data = {
-            code: code
-        }
-        const response = await fetch("http://localhost:8080/log_in", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (response.status === 200) {
-            //console.log(response);
-        } else {
-        }
+    })
     }
 
     async function requestdata() {
@@ -81,7 +89,7 @@ const ResetPassword = () => {
         if (response.status === 200) {
             //console.log(response);
             Swal.fire({
-                title: "Successfully Reset Your password",
+                title: "Successfully reset your password",
                 text: "",
                 icon: "success",
                 showCancelButton: false,
@@ -90,7 +98,7 @@ const ResetPassword = () => {
                 confirmButtonText: "Ok",
             }).then((result: any) => {
                 if (result.isConfirmed) {
-                    //console.log(id);
+                    navigate('/');
                 }
             });
         } else {
@@ -137,7 +145,35 @@ const ResetPassword = () => {
         if (!code) {
             setError("Enter code we send your email");
         } else {
-            requestdataData();
+            if (code==getCode) {
+                Swal.fire({
+                    title: "Success, Enter New Password",
+                    text: "",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        //console.log(id);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Something goes wrong. Please try again.",
+                    text: "",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        //console.log(id);
+                    }
+                });
+            }
             setValidated(false);
         }
     }
@@ -199,10 +235,11 @@ const ResetPassword = () => {
                         <Button variant="primary" type="submit" className='submit'>
                             Reset Password
                         </Button>
+                        <a href='/'><h6 className='mt-2 d-flex justify-content-end'>Back to log in </h6></a>
                     </Form>
                 </Row>
             </Col>
         </Row>
     );
 }
-export default ResetPassword;
+export default ResetPassword; 

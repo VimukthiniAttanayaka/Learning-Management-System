@@ -33,8 +33,8 @@ const Login = () => {
 
         axios.post('http://localhost:8080/authenticate', data).then(res => {
 
-            localStorage.setItem('role', res.data.user.role[0].roleName)
-            //localStorage.setItem('role', 'Student')
+            //localStorage.setItem('role', res.data.user.role[0].roleName)
+            localStorage.setItem('role', 'Student')
             localStorage.setItem('token', res.data.jwtToken)
             localStorage.setItem('email', email)
 
@@ -125,6 +125,7 @@ const Login = () => {
                         <Button variant="primary" type="submit" className='submit mt-4'>
                             Submit
                         </Button>
+                        <a href='/register'><h6 className='mt-2 d-flex justify-content-center'>Don't have account? Sign Up </h6></a>
                     </Form>
                 </Row>
             </Col>

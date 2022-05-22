@@ -23,6 +23,7 @@ const Register = () => {
     const [mobile, setMobile] = useState<string>("");
     const [error, setError] = useState<string>("");
     const [code, setCode] = useState<string>("");
+    const [getCode, setGetCode] = useState<string>("");
 
     const handleOnFirstNameChanged = (name: string) => {
         setFirstName(name);
@@ -63,22 +64,73 @@ const Register = () => {
     async function requestdata() {
 
         let data = {
-            first_name: firstName,
-            last_name: lastName,
-            home_address: "kadugaammulla",
-            degree_program: degree,
+            userName: email,
+        }
+        axios.post('http://localhost:8080/getRegisterCode', data).then(res => {
+            console.log(res)
+
+            // localStorage.setItem('role', userType)
+            // localStorage.setItem('email', email)
+
+            if (res.status === 200) {
+                console.log(res);
+                Swal.fire({
+                    title: "Enter Code We Send Your Email",
+                    text: "",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        setGetCode(res.data);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Something goes wrong. Please try again.",
+                    text: "",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        setFirstName("");
+                        setLastName("");
+                        setEmail("");
+                        setPassword("");
+                        setRePassword("");
+                        setUserType("");
+                        setDegree("");
+                        setMobile("");
+                        setError("");
+                        setCode("");
+                    }
+                });
+            }
+        })
+    }
+
+    function passData() {
+        let data = {
+            userName: email,
+            userFirstName: firstName,
+            userLastName: lastName,
+            userPassword: password,
+            homeAddress: "kadugaammulla",
+            degreeProgramme: degree,
             phone: mobile,
-            user_type: userType,
-            email: email,
-            password: password
+            roleName: userType,
         }
         axios.post('http://localhost:8080/registerNewUser', data).then(res => {
+            console.log(res)
 
-
-            localStorage.setItem('role', res.data.user.role[0].roleName)
-            localStorage.setItem('token', res.data.jwtToken)
+            localStorage.setItem('role', userType)
+            // localStorage.setItem('token', res.data.jwtToken)
             localStorage.setItem('email', email)
-
             if (res.status === 200) {
                 console.log(res);
                 Swal.fire({
@@ -111,33 +163,6 @@ const Register = () => {
                 });
             }
         })
-        // const response = await fetch("http://localhost:8080/sign_up", {
-        //     method: 'POST',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data)
-        // });
-    }
-
-    async function requestdataCode() {
-
-        let data = {
-            code: code
-        }
-        const response = await fetch("http://localhost:8080/log_in", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (response.status === 200) {
-            //console.log(response);
-        } else {
-        }
     }
 
     const handleSubmit = (event: any) => {
@@ -155,7 +180,23 @@ const Register = () => {
             setError("password and repassword need to be same");
         }
         else {
-            requestdata();
+            if (code == getCode) {
+                requestdata();
+            } else {
+                Swal.fire({
+                    title: "Something goes wrong. Please try again.",
+                    text: "",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        //console.log(id);
+                    }
+                });
+            }
             setValidated(false);
         }
     }
@@ -171,28 +212,11 @@ const Register = () => {
         if (!code) {
             setError("Enter code we send your email");
         } else {
-            requestdataCode();
+            passData();
             setValidated(false);
         }
     }
-    async function requestdataData() {
 
-        let data = {
-            code: code
-        }
-        const response = await fetch("http://localhost:8080/log_in", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (response.status === 200) {
-            //console.log(response);
-        } else {
-        }
-    }
     return (
         <Row className='login-page'>
             <Col xs={12} className='p-0'>
@@ -248,13 +272,14 @@ const Register = () => {
                         </Button>
                     </Form>
                     <Form noValidate validated={validated} onSubmit={handleSubmitCode}>
-                        <Form.Control type="text" placeholder="code" required value={mobile}
+                        <Form.Control type="text" placeholder="code" required
                             onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
                                 handleOnCodeChanged(ev.target.value)
                             } />
                         <Button variant="primary" type="submit" className='code'>
                             Verify
                         </Button>
+                        <a href='/'><h6 className='mt-2 d-flex justify-content-center'>Have account? Log In </h6></a>
                     </Form>
                 </Row>
             </Col>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Image, Button, Modal, Form } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import background from "../../assets/images/profilebackground.jpg";
@@ -39,14 +39,22 @@ const CoursesTeachers = () => {
         }
     }
 
-    const coursesList: IMyCourse[] = [
-        { name: 'EE111 - Effective', semester: 'semester 1' },
-        { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-    ];
+    const auth = localStorage.getItem('token');
+
+    const [courses, setCourses] = useState<IMyCourse[]>([]);
+
+    async function requestCoursedata() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.get('http://localhost:8080/viewMarks', config).then(res => {
+            console.log(res.data);
+            setCourses(res.data);
+        })
+    }
+    useEffect(() => {
+        requestCoursedata();
+    }, [auth]);
 
     const user = localStorage.getItem('role');
     var courseLink: any;
@@ -60,13 +68,13 @@ const CoursesTeachers = () => {
     const MyCourseList = () => {
         return (
             <Row className='width-100'>
-                {coursesList.map((course: IMyCourse, index: number) => (
+                {courses.map((course: IMyCourse, index: number) => (
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row onClick={() => courseNavigate(course.name)}>
+                        <Row onClick={() => courseNavigate(course.courseId)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
-                            <h6>{course.name}</h6>
+                            <h6>{course.courseName}</h6>
                         </Row>
                     </Col>
                 ))}
@@ -74,19 +82,33 @@ const CoursesTeachers = () => {
         )
     }
 
-    const courses: IAssignTask[] = [
+    const tutorials: IAssignTask[] = [
         { name: 'tutorial1', assignDate: '2022/04/05', dueDate: '2022/04/30' },
         { name: 'tutorial1', assignDate: '2022/04/05', dueDate: '2022/04/30' },
         { name: 'tutorial1', assignDate: '2022/04/05', dueDate: '2022/04/30' },
         { name: 'tutorial1', assignDate: '2022/04/05', dueDate: '2022/04/30' },
     ];
 
-    const addMarks: IMarkAdd[] = [
-        { name: 'tutorial1', email: '2022/04/05', mark: '34' },
-        { name: 'tutorial1', email: '2022/04/05', mark: '' },
-        { name: 'tutorial1', email: '2022/04/05', mark: '' },
-        { name: 'tutorial1', email: '2022/04/05', mark: '' },
-    ];
+    const [addMarks, setAddMarks] = useState<IMarkAdd[]>([]);
+
+    async function marksAdd() {
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        axios.get('http://localhost:8080/viewMarks', config).then(res => {
+            console.log(res.data);
+            setAddMarks(res.data);
+        })
+    }
+    useEffect(() => {
+        marksAdd();
+    }, [auth]);
+    // const addMarks: IMarkAdd[] = [
+    //     { name: 'tutorial1', email: '2022/04/05', mark: '34' },
+    //     { name: 'tutorial1', email: '2022/04/05', mark: '' },
+    //     { name: 'tutorial1', email: '2022/04/05', mark: '' },
+    //     { name: 'tutorial1', email: '2022/04/05', mark: '' },
+    // ];
 
     const [annousmentShow, setAnnousmentShow] = useState(false);
     const handleAnnousmentClose = () => setAnnousmentShow(false);
@@ -170,6 +192,51 @@ const CoursesTeachers = () => {
         })
     }
 
+    const courseId = localStorage.getItem('courseId');
+    async function sendEmails() {
+        let data = {
+            courseId: courseId,
+            subject: emailHeader,
+            body: emailBody
+        }
+        const config = {
+            headers: { Authorization: `Bearer ${auth}` }
+        };
+        console.log(data);
+        axios.post('http://localhost:8080/sendNotifications', data, config).then(res => {
+
+            if (res.status === 200) {
+                Swal.fire({
+                    title: "Email send Successfully",
+                    text: "",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Something goes wrong. Please try again.",
+                    text: "",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "white",
+                    confirmButtonText: "Ok",
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        //console.log(id);
+                    }
+                });
+            }
+
+        })
+    }
+
     const handleSubmit = (event: any) => {
         event.preventDefault();
         const form = event.currentTarget;
@@ -185,7 +252,7 @@ const CoursesTeachers = () => {
             setError("Email Body can not be empty");
         }
         else {
-            requestdata();
+            sendEmails();
             setValidated(false);
             setAnnousmentShow(false);
         }
@@ -197,7 +264,7 @@ const CoursesTeachers = () => {
     const CourseShow = () => {
         return (
             <>
-                {courses.map((assignTasks: IAssignTask, index: number) => (
+                {tutorials.map((assignTasks: IAssignTask, index: number) => (
                     <Row assignTasks={assignTasks} index={index} key={index}>
                         <Col xs={3}>
                             <h5 className='colour-green'>{assignTasks.name}</h5>
@@ -282,7 +349,7 @@ const CoursesTeachers = () => {
                             {addMarks.map((assignMarks: IMarkAdd, index: number) => (
                                 <Row assignMarks={assignMarks} index={index} key={index}>
                                     <Col xs={3}>
-                                        <h5 className='colour-green'>{assignMarks.name}</h5>
+                                        <h5 className='colour-green'>{assignMarks.email}</h5>
                                     </Col>
                                     <Col xs={9}>
                                         <h5 className='colour-green'>{assignMarks.mark}</h5>

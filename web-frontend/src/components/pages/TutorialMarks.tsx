@@ -37,12 +37,12 @@ const TutorialMarks = () => {
     }
 
     const coursesList: IMyCourse[] = [
-        { name: 'EE111 - Effective', semester: 'semester 1' },
-        { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
-        { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
+        // { name: 'EE111 - Effective', semester: 'semester 1' },
+        // { name: 'EE112 - Effective English Usage', semester: 'semester 1' },
+        // { name: 'EE113 - Effective English Usage', semester: 'semester 1' },
+        // { name: 'EE114 - Effective English Usage', semester: 'semester 1' },
+        // { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
+        // { name: 'EE115 - Effective English Usage', semester: 'semester 1' },
     ];
 
     const user = localStorage.getItem('role');
@@ -61,9 +61,9 @@ const TutorialMarks = () => {
                     <Col course={course}
                         index={index}
                         key={index}>
-                        <Row onClick={() => courseNavigate(course.name)}>
+                        <Row onClick={() => courseNavigate(course.courseId)}>
                             <Image src={cources} alt='cources' className='cource-icon' />
-                            <h6>{course.name}</h6>
+                            <h6>{course.courseName}</h6>
                         </Row>
                     </Col>
                 ))}
